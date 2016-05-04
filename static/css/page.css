@@ -1,0 +1,23 @@
+body{padding: 0;color:#333333;margin:0;background-color: #dcdddd;position: relative;}
+.JDragBox{ width: 414px; height: 736px; top: 200px; left:50%;margin-left: -208px;background-position: center top;
+	cursor: move; position: absolute;
+	/*background:url(../../upload/bg.jpg);*/
+	border: 1px solid #CCCCCC; box-shadow: 10px 10px 25px #ccc;
+}
+.JDragBoxUnable{cursor:auto; }
+.JScaleBox { width: 10px; height: 10px;cursor: se-resize; position: absolute; right: 0; bottom: 0; background-color: #09C; }
+
+.btn-save{left: 0;top: -40px;cursor: pointer;display: block;}
+.btn-redo{left: 50%;top: 161px;cursor: pointer;display: block;margin-left: -207px;z-index: 10;}
+
+.create-page{position: absolute;top: 10px;right: 10px;}
+
+.red-packet{width: 800px;height: 220px;padding-bottom: 15px;border-bottom: 1px solid #ccc;}
+.red-packet a{display: inline-block;padding:5px;margin:0 5px;}
+.red-packet a:hover,.red-packet .current{background-color: #e2e2e2}
+.packet-setting{
+	margin-top: 20px;text-align: center;
+}
+.packet-setting .btn{float:none;padding: 6px 25px;margin:0 10px;}
+.form li{list-style: none;display: inline-block;height: 32px;line-height: 32px;}
+.insertFormTmp li{width: 120px;}

@@ -1,0 +1,156 @@
+.JEditor div[contenteditable=true]:focus { 
+    outline: none; 
+}
+.JEditor{background:url(../images/iphone6s.jpg) center 88px no-repeat;height: 1050px;}
+
+.JEditor .btn-container{
+    padding:30px 3px 0px 3px;
+    background-color: #fff;
+}
+.JEditor .btn-container .line{
+    margin:5px 5px 0px 5px;
+}
+.JEditor .btn-container .split{
+    width: 0px;
+    height: 20px;
+    border-left: 1px solid #cccccc;
+    float: left;;
+    margin: 0px 5px 0px 5px;
+}
+.JEditor .drop-menu{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #cccccc;
+    width: 100px;
+    background-color: #ffffff;
+    position: absolute;
+    display: none;
+    z-index: 20;
+}
+.JEditor .drop-menu li{
+    margin: 0px;
+    padding: 0px;
+}
+.JEditor .drop-menu li a{
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #333333;
+    padding: 3px 3px 3px 3px;
+}
+.JEditor .drop-menu li a:hover{
+    background-color: #d5e1f2;
+}
+
+.JEditor .mask{
+    position: absolute;
+    top: 0px;
+    left:0px;
+    display: none;
+    background-color:#cccccc;
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5; 
+    opacity:0.5;
+}
+.modal{
+    border:5px solid #cccccc;
+    background-color: #ffffff;
+    padding: 5px 10px 10px 10px;
+    position: absolute;
+    display: none;
+    width: 600px;
+    border-radius: 10px;
+    z-index: 20;
+}
+.modal-big{
+    width: 800px;
+}
+.modal-small{
+    width: 400px;
+}
+.modal-mini{
+    width: 200px;
+}
+.modal .header .close{
+    display:block;
+    width: 16px;
+    float: right;
+    color: #333333;
+    text-decoration: none;
+    cursor: pointer;
+} 
+.modal .header .line{
+    border-top:1px solid #cccccc; 
+    margin:5px 0px 5px 0px;
+}
+
+.JEditor .textarea{
+    overflow-y: scroll;
+    margin: 124px auto 0;
+    width: 414px;
+    height: 736px;
+    color: #fff;
+}
+.JEditor .editorEnble{position: relative;}
+.JEditor .textarea img{text-align: center;max-width: 100%}
+.JEditor .textarea p{
+    margin: 10px 0px;
+}
+
+.JEditor .status{
+    background-color: #f1f1f1;
+    padding: 3px 5px 3px 5px;
+    font-size: 13px;
+    color:#505050;
+    display: none;
+}
+
+.toolTip{
+    position: absolute;
+    display: none;
+}
+.toolTip .content{
+    text-align: center;
+    background-color: #505050;
+    color: #fff;
+    font-size: 13px;
+    padding: 5px;
+    -moz-border-radius: 3px;   
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.toolTip .footer{
+    margin-top: -7px;
+    text-align: center;
+    color: #505050;
+}
+
+.btn-default{
+    color: #505050;
+}
+.btn-selected{
+    background-color:#aec5e6;
+    border-radius: 3px;
+}
+.btn-lg,
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-xs,
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}

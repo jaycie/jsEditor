@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>1家说活动海报生成器</title>
+
+<link rel="stylesheet" type="text/css" href="static/css/font-awesome.css">
+<style id="exportCss">   
+/*以下是本页面和生成文件页面公用样式*/
+input{border: 1px solid #b8b8b8}
+table{margin: 0 auto;}
+table td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+}
+.text-center{text-align: center;}
+.cf{
+    clear: both;
+}
+.right{float: right !important;}
+.show{display: block !important;}
+.hide{display: none !important;}
+/*吸收bootstrap按钮图标*/
+.btn {
+    font-size: 14px;
+    display: inline-block;
+    padding:6px 12px;
+    margin-left: 2px;
+    text-align: center;
+    float: left;
+    text-decoration: none;
+    cursor:pointer;
+    border-radius: 3px;
+}
+.btn-container .btn{padding: 0 6px;}
+.btn p{margin:0;font-size: 13px;}
+.btn:hover{
+    background-color:#c4c4c4;
+    border-radius: 3px;
+}
+.btn-important {
+  color: #fff;
+  background-color: #e61f42;
+  border-color: #d6183f;
+}
+.btn-important:focus,
+.btn-important.focus {
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #761c19;
+}
+.btn-important:hover {
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+.btn-important:active,
+.btn-important.active,
+.open > .dropdown-toggle.btn-important {
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+.btn-important:active:hover,
+.btn-important.active:hover,
+.open > .dropdown-toggle.btn-important:hover,
+.btn-important:active:focus,
+.btn-important.active:focus,
+.open > .dropdown-toggle.btn-important:focus,
+.btn-important:active.focus,
+.btn-important.active.focus,
+.open > .dropdown-toggle.btn-important.focus {
+  color: #fff;
+  background-color: #ac2925;
+  border-color: #761c19;
+}
+.btn-important:active,
+.btn-important.active,
+.open > .dropdown-toggle.btn-important {
+  background-image: none;
+}
+.btn-important.disabled,
+.btn-important[disabled],
+fieldset[disabled] .btn-important,
+.btn-important.disabled:hover,
+.btn-important[disabled]:hover,
+fieldset[disabled] .btn-important:hover,
+.btn-important.disabled:focus,
+.btn-important[disabled]:focus,
+fieldset[disabled] .btn-important:focus,
+.btn-important.disabled.focus,
+.btn-important[disabled].focus,
+fieldset[disabled] .btn-important.focus,
+.btn-important.disabled:active,
+.btn-important[disabled]:active,
+fieldset[disabled] .btn-important:active,
+.btn-important.disabled.active,
+.btn-important[disabled].active,
+fieldset[disabled] .btn-important.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.btn-important .badge {
+  color: #d9534f;
+  background-color: #fff;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="static/css/editor.css">
+<link rel="stylesheet" type="text/css" href="static/css/page.css">
+</head>
+<body>
+	<div id="JDragBox" class="JDragBox">
+		<div class="toolTip btn-save" data-next="save"><div class="content">保存背景</div><div class="footer"><i class="fa fa-caret-down"></i></div></div>
+		<div id="JScaleBox" class="JScaleBox"></div>
+	</div>
+
+	<div class="create-page">
+		<form action="#" method="post" target="_blank" id="createPage">
+			<textarea name="pageContent" class="hide" id="pageContent"></textarea>
+			<input type="submit" value="生成网页" class="btn btn-important" id="createPageNow">
+		</form>
+	</div>
+	
+
+	<div id='JEditor' class="JEditor">
+		<p>请输入内容...</p>
+	</div>
+	
+<script type="text/javascript" src="static/js/jquery-1.10.2.min.js" ></script>
+<script>
+	window.siteConfig= { //处理图片 文件上传等动态服务器路径
+		url : {
+			editor: 'http://10.0.0.9/jsEditor',
+			// editor: 'http://10.0.0.120/img/haibao/jsEditor/',
+			base: 'http://10.0.0.9:8888/',
+			// base: 'http://10.0.0.120:8888/',
+			upload: 'upload',    //上传图片
+			show: 'uploadImg',   //显示图片
+			poster: 'poster'  //生成静态文件
+		}
+	}
+
+</script>
+<script type="text/javascript" src='static/js/editor.js'></script>
+<script type="text/javascript" src='static/js/drag.js'></script>
+<script type="text/javascript" src="static/js/init.js"></script>
+</body>
+</html>
