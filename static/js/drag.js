@@ -2,8 +2,8 @@
  * author jaycie
  * Email: xiezhanggen@gmail.com
  */
-$(function() {
-	$(document).mousemove(function(e) {
+ var jDrag = function(dragDiv, scaleDiv) {
+ 	$(document).mousemove(function(e) {
 		if (!!this.move && $(e.target).attr('class') !=='content') {  // &&不在点击保存按钮上
 			var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
 				callback = document.call_down || function() {
@@ -28,12 +28,12 @@ $(function() {
 		}
 	});
 
-	var $box = $('#JDragBox').on('mousedown',function(e) {
+	var $box = $(dragDiv).on('mousedown',function(e) {
 	    var offset = $(this).offset();
 	    
 	    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
 	    $.extend(document, {'move': true, 'move_target': this});
-	}).on('mousedown', '#JScaleBox', function(e) {
+	}).on('mousedown', scaleDiv, function(e) {
 	    var posix = {
 	            'w': $box.width(), 
 	            'h': $box.height(), 
@@ -49,6 +49,10 @@ $(function() {
 	    }});
 	    return false;
 	});
+ }
+
+$(function(){
+	jDrag('#JDragBox', '#JScaleBox');
 
 	$.extend({
 		drag: function(bool){
@@ -65,4 +69,4 @@ $(function() {
 			}
 		}
 	})
-});
+})

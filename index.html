@@ -105,6 +105,9 @@ fieldset[disabled] .btn-important.active {
   color: #d9534f;
   background-color: #fff;
 }
+/*dragbox*/
+.appendDragBox{position: absolute;margin-left: -100px;overflow: hidden;}
+
 </style>
 <link rel="stylesheet" type="text/css" href="static/css/editor.css">
 <link rel="stylesheet" type="text/css" href="static/css/page.css">
@@ -131,9 +134,9 @@ fieldset[disabled] .btn-important.active {
 <script>
 	window.siteConfig= { //处理图片 文件上传等动态服务器路径
 		url : {
-			editor: 'http://10.0.0.9/jsEditor',
+			editor: 'http://10.0.0.6/jsEditor',
 			// editor: 'http://10.0.0.120/img/haibao/jsEditor/',
-			base: 'http://10.0.0.9:8888/',
+			base: 'http://10.0.0.6:8888/',
 			// base: 'http://10.0.0.120:8888/',
 			upload: 'upload',    //上传图片
 			show: 'uploadImg',   //显示图片

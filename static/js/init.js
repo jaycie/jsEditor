@@ -79,7 +79,8 @@ $(function(){
 				'<style>body{margin: 0;padding: 0;max-width: 100%;overflow: hidden;}body img{max-width:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';}'+
 				$('#exportCss').text()+'</style>' +
 				'<body><img src="'+cPConfig.url+'" class="drag-bg">' +
-			   	$('#enabledTextArea').html() + 
+			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
+			   	$('.textarea').html() + 
 			   	'<script>var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};</script>' +
 			  	'</body></html>';
 		

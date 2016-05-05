@@ -21,3 +21,5 @@ body{padding: 0;color:#333333;margin:0;background-color: #dcdddd;position: relat
 .packet-setting .btn{float:none;padding: 6px 25px;margin:0 10px;}
 .form li{list-style: none;display: inline-block;height: 32px;line-height: 32px;}
 .insertFormTmp li{width: 120px;}
+
+.appendDragBox{border: 1px solid #ccc;}
