@@ -22,4 +22,4 @@ body{padding: 0;color:#333333;margin:0;background-color: #dcdddd;position: relat
 .form li{list-style: none;display: inline-block;height: 32px;line-height: 32px;}
 .insertFormTmp li{width: 120px;}
 
-.appendDragBox{border: 1px solid #ccc;}
+.appendDragBox{border: 1px solid #ccc;cursor: move;}

@@ -86,14 +86,14 @@
 }
 
 .JEditor .textarea{
-    overflow-y: scroll;
+    overflow-x: hidden;
     margin: 124px auto 0;
     width: 414px;
     height: 736px;
     color: #fff;
 }
 .JEditor .editorEnble{position: relative;}
-.JEditor .textarea img{text-align: center;max-width: 100%}
+.JEditor .textarea img{text-align: center;max-width: 100%;max-height: 100%;}
 .JEditor .textarea p{
     margin: 10px 0px;
 }

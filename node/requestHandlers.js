@@ -37,15 +37,11 @@ function upload(response, request) {
 
         fileName=_fileName+'.'+suffix;
         console.log("parsing done");
-        // console.log(files.upload.path); 
         fs.renameSync(files.upload.path, './upload/'+fileName); 
    
         response.writeHead(302, {
           'Location': _refer+'&imgUrl=' + fileName
         });
-        // response.writeHead(200, {"Content-Type": "text/html"});
-        // response.write('node/upload/'+fileName);
-        // response.redirect('http://www.baidu.com/');
         response.end();
         
     });

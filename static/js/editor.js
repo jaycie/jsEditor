@@ -1,51 +1,64 @@
 (function (window, undefined) {
-    if (!window.jQuery) {
+    if (!window.$) { //must load jquery
+        alert('must load jquery first');
         return;
     }
     var document = window.document,
-		$ = window.jQuery,
+		$ = window.$,
 		supportRange = typeof document.createRange === 'function',
 	    defaultHeight = 100,
 	    menus,  //存储菜单配置
 		currentRange,      //记录当前选中范围
         $txt = $('<div contenteditable="true" class="textarea" id="enabledTextArea"></div>'),  //编辑区
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
-        $formField= [     //插入表单的字段及类型
-            {
-                value:'姓名',
-                type:'text'
+        $form = {
+            action : {
+                base : 'http://10.0.0.120/',  //表单&&红包 公用处理服务器
+                newActForm : 'member/newActForm',  //提交表单所需自断
+                postActForm : 'member/postActForm', //发送表单数据
+                newActPacket : 'member/newActPacket' //保存红包配置信息
             },
-            {
-                value:'性别',
-                type:'radio', //默认选中第一个
-                sub:[
-                    {
-                        key: 1,    
-                        value: '男'
-                    },
-                    {
-                        key: 2,
-                        value: '女'
-                    }
-                ]
-            },
-            {
-                value:'电话',
-                type:'tel'
-            },
-            {
-                value:'地址',
-                type:'text'
-            },
-            {
-                value:'Q Q ',
-                type:'number'
-            },
-            {
-                value:'微信',
-                type:'text'
-            }
-        ], //表单字段
+            field : [     //插入表单的字段及类型 type name -> form_{index}
+                {
+                    value:'姓名',
+                    type:'text'
+                },
+                {
+                    value:'性别',
+                    type:'radio', //默认选中第一个
+                    sub:[
+                        {
+                            key: 1,    
+                            value: '男'
+                        },
+                        {
+                            key: 2,
+                            value: '女'
+                        }
+                    ]
+                },
+                {
+                    value:'电话',
+                    type:'tel'
+                },
+                {
+                    value:'地址',
+                    type:'text'
+                },
+                {
+                    value:'微信',
+                    type:'text'
+                },
+                {
+                    value:'推荐人账号',
+                    type:'text'
+                }
+            ] //表单字段  
+        },
+        $packet = {  //红包提交地址
+            get : 'yjsWebService/hongbao/qiangHongbaoByActiveId',
+            open : 'yjsWebService/hongbao/useHongbaoKey'
+        },  
         $maskDiv = $('<div class="mask"></div>'),  //遮罩层
         $modalContainer = $('<div></div>'),  //modal容器
         $modalTopDefault = '100px',
@@ -563,7 +576,7 @@
             })()
         },
         {
-            'title': '文本框，可拖动到任意位置',
+            'title': '可拖动文本框',
             'description': '文本',
             'type': 'btn',
             'txt': 'fa fa-font',
@@ -574,9 +587,9 @@
                     scaleId= getUniqeId();
 
                 $txt.append('<div id="'+dragId+'" class="appendDragBox" title="外边框生成页面后自动删除" '
-                        + 'style="width: 200px;height: 100px;left: 50%;top: 200px;">'
-                        + '&nbsp;<div id="'+scaleId+'" class="JScaleBox"></div></div>');
-                jDrag('#'+dragId, '#'+scaleId);
+                        + 'style="width: 200px;height: 100px;">'
+                        + '<div id="'+scaleId+'" class="JScaleBox"></div><p>&nbsp;</p></div>');
+                jDrag('#'+dragId, '#'+scaleId, true);
             }
         },
         {
@@ -589,22 +602,27 @@
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
                     btnId = getUniqeId(),
-                    btnIdSubmit = getUniqeId(),
-                    _html = '<ul class="form insertFormTmp">';
+                    tableId = 'newActForm',
+                    _html = '<ul class="form insertFormTmp">',
+                    $formField= $form.field;
                 $.each($formField,function(i){
                     _html += '<li>'+$formField[i].value+':<input type="checkbox" name="' + urlTxtId + '" value="'+i+'" /></li>';
                 })
-                _html +='</ul><p><button id="' + btnId + '" type="button" class="btn btn-important right">插入字段</button></p>';
+                _html +='</ul><p><input type="hidden" name="newActUrl" id="newActUrl" value="'+$form.action.base+$form.action.newActForm+'" />'+
+                        '<input type="hidden" name="newActValue" id="newActValue" value="" />'+
+                        '<button id="' + btnId + '" type="button" class="btn btn-important right">插入字段</button></p>';
                 var $modal = $(
                         '<div>'+_html+'</div>'
                     ),
                     callback = function(){
                         $modal.find("input[name="+urlTxtId+"]").prop("checked",false);
+                        $('#'+tableId).prop('contenteditable',false);
                     };
                 $modal.find('#' + btnId).click(function(e){
                     var _val =$modal.find("input[name="+urlTxtId+"]:checked"),
                         _key=[],
-                        _form='<table>';
+                        _form='<table id="'+tableId+'" contenteditable="false">',
+                        _submitVal='[';
                     for(var i=0,len=$formField.length;i<len;i++){
                         $.each(_val,function(){
                             if($(this).val()==i){
@@ -618,10 +636,14 @@
                                 }else{
                                     _form += '<tr><th>'+$formField[i].value+':</th> <td><input type="'+$formField[i].type+'" name="form_'+i+'" placeholder="请输入'+$formField[i].value+'" /></td></tr>';
                                 }
+
+                                _submitVal +='{"colum":"'+$formField[i].value+'","index":'+i+'},';
                             }
                         }); 
                     }
-                    _form +='<tr><th></th> <td class="right"><button id="' + btnIdSubmit + '" type="button" class="btn btn-important">保存</button></td></</table>';
+                    _form +='<tr contenteditable="true"><th><input type="hidden" name="postActUrl" id="postActUrl" value="'+$form.action.base+$form.action.postActForm+'" /></th> <td class="right"><button id="submitSave" type="button" class="btn btn-important">保存</button></td></</table>';
+                    _submitVal = _submitVal.substr(0,_submitVal.length-1);
+                    $('#newActValue').val(_submitVal+']');
                     commonCommand(e, 'insertHTML', _form, callback);
                 });
 
@@ -638,19 +660,23 @@
             'appendClass': 'modal-big',
             'modal': (function () {
                 window.packetSetting = {  //红包配置信息，生成静态页面用到
-                    tplId: "0",
+                    tplId: 0,
                     totalMoney: 0,
                     totalPoint: 0,
-                    totalOnly: 0
+                    totalOnly: 0,
+                    getUrl: $form.action.base + $packet.get,
+                    openUrl: $form.action.base + $packet.open
                 };
 
                 var urlTxtId = getUniqeId(),
                     btnId = getUniqeId(),
+                    dragId = getUniqeId(),
+                    scaleId = getUniqeId(),
                     tmpId='',
                     $modal = $(
                         '<div>' +
                         '   <div class="red-packet" id="' + urlTxtId + '"><a href="#nolink" class="item-1" data-index="1"><img src="static/images/packet_1.png" /></a><a href="#nolink" class="item-2" data-index="2"><img src="static/images/packet_2.png" /></a><a href="#nolink" class="item-3" data-index="3"><img src="static/images/packet_3.png" /></a><a href="#nolink" class="item-4" data-index="4"><img src="static/images/packet_4.png" /></a><a href="#nolink" class="item-5" data-index="5"><img src="static/images/packet_5.png" /></a></div>' + 
-                        '   <p><button id="' + btnId + '" type="button" class="btn btn-important right">确认</button></p>' + 
+                        '   <p><input type="hidden" name="newActPacket" id="newActPacket" value="'+$form.action.base+$form.action.newActPacket+'" /><button id="' + btnId + '" type="button" class="btn btn-important right">确认</button></p>' + 
                         '</div>'
                     ),
                     callback = function(){
@@ -664,9 +690,9 @@
                             var _left = 200 + parseFloat($modal.css('left')) + 'px',
                                 html = '<div class="modal modal-small" id="packetSetting" style="display:block;left:'+_left+';top:'+$modalTopDefault+'">' +
                                         '<div class="header"><a href="#" class="close"><i class="fa fa-close"></i></a><b>配置红包</b><div class="cf"></div><div class="line"></div></div>'+
-                                        '<table><tr><td>总金额：</td><td><input type="number" name="totalMoney" id="totalMoney" min="1" max="100000000" style="width:170px;"/></td></tr>' +
-                                        '<tr><td>总份数：</td><td><input type="number" name="totalPoint" id="totalPoint" min="1" max="100000" style="width:170px;" /></td></tr>' +
-                                        '<tr><td>单红包分享个数：</td><td><input type="number" name="totalOnly" id="totalOnly" min="1" max="100000" style="width:170px;" /></td></tr></table>' +
+                                        '<table><tr><td>单个红包金额：</td><td><input type="number" name="totalMoney" id="totalMoney" min="1" max="100000000" oninput="if(value.length>9)value=value.slice(0,9)"  style="width:170px;"/></td></tr>' +
+                                        '<tr><td>总份数：</td><td><input type="number" name="totalPoint" id="totalPoint" min="1" max="100000" style="width:170px;" oninput="if(value.length>6)value=value.slice(0,6)" /></td></tr>' +
+                                        '<tr><td>单红包分享个数：</td><td><input type="number" name="totalOnly" id="totalOnly" min="1" max="100000" style="width:170px;" oninput="if(value.length>6)value=value.slice(0,6)" /></td></tr></table>' +
                                         '<div class="packet-setting"><button class="btn btn-important close" id="packetSave">保存</button> <button class="btn btn-important close">取消</button></div>' +
                                         '</div>';
                             $modal.parent().append(html);
@@ -674,7 +700,8 @@
                         
                         $('#packetSave').off('click').on('click',function(e){
                             var _loc = 'http://'+location.host+location.pathname;
-                            $txt.append('<a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a>');
+                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除"><a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
+                            jDrag('#'+dragId, '#'+scaleId, true);
                             packetSetting.totalMoney= $('#totalMoney').val();
                             packetSetting.totalPoint= $('#totalPoint').val();
                             packetSetting.totalOnly= $('#totalOnly').val();  
@@ -851,7 +878,6 @@
             //添加tooltips效果
             if(title){
                 $btn.attr('title', '');
-
                 var btnTop,
                     btnLeft,
                     btnWidth,
@@ -899,7 +925,7 @@
             $btnContainer.append($menu);
         });
         $btnContainer.append($('<div class="cf"></div>'))
-                      .append($('<div class="line"></div>'));
+                     .append($('<div class="line"></div>'));
 
     	//$txt光标发生变化时，保存selection，更新menu style
         $txt.on('focus click keyup', function(e){
@@ -923,9 +949,6 @@
     		.append($txt);
 
     	$txt.html(initContent);
-    	// height = height - $btnContainer.height() - 11;
-    	// height = height >= 50 ? height : defaultHeight;
-    	// $txt.height(height);
 
     	return $txt;
     };

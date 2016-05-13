@@ -2,7 +2,8 @@
  * author jaycie
  * Email: xiezhanggen@gmail.com
  */
- var jDrag = function(dragDiv, scaleDiv) {
+ var jDrag = function(dragDiv, scaleDiv, inEditContent) {
+ 	var editContentDom = $('#enabledTextArea');
  	$(document).mousemove(function(e) {
 		if (!!this.move && $(e.target).attr('class') !=='content') {  // &&不在点击保存按钮上
 			var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
@@ -33,6 +34,22 @@
 	    
 	    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
 	    $.extend(document, {'move': true, 'move_target': this});
+
+	    inEditContent && (function(){
+			editContentDom.removeClass('editorEnble');
+		}());
+
+	}).on('mouseup', function(e){
+		console.log(this.posix);
+		inEditContent && (function(){
+			console.log("--------------"+this.posix);
+			var _domLeft = editContentDom.offset().left,
+				_domTop = editContentDom.offset().top,
+				_dragLeft = parseInt($(dragDiv).css('left')),
+				_dragTop = parseInt($(dragDiv).css('top'));
+			$(dragDiv).css({'left':_dragLeft-_domLeft + 'px','top':_dragTop-_domTop+'px'});
+			editContentDom.addClass('editorEnble');	
+		}());
 	}).on('mousedown', scaleDiv, function(e) {
 	    var posix = {
 	            'w': $box.width(), 
