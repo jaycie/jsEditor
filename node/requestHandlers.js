@@ -2,6 +2,7 @@ var querystring = require("querystring"),
     fs = require("fs"),
     formidable = require("formidable"),
     url = require('url'),
+    util = require('util'),
     fileName='';
 
 function start(response,request) {
@@ -101,9 +102,11 @@ function poster(response, request){
     function writeFile(file, datas, callback){
         fs.open(file, 'w+', function opened(err, fd) { //文件覆盖 如果是追加用 a
             if (err) { throw err; }
-            var writeBuffer = new Buffer(datas),
+            // var writeBuffer = new Buffer(datas),
+            var writeBuffer = util.isBuffer(datas) ? datas : new Buffer('' + datas,'utf8'),
             bufferPosition = 0,
             bufferLength = writeBuffer.length, filePosition = null;
+            // console.log(writeBuffer);
             fs.write(fd,writeBuffer,bufferPosition,bufferLength,filePosition,function wrote(err, written) {
                 if (err) { throw err; }
                 console.log('wrote ' + written + ' bytes');
@@ -119,22 +122,30 @@ function poster(response, request){
     if(request.url!=="/favicon.ico"){
         request.on('data',function(data){
             // var data = decodeURIComponent(data).replace(/\+/g,' ').replace('pageContent=','');
-            var data = querystring.parse(decodeURIComponent(data))['pageContent'];
+            try{
+                var data = querystring.parse(decodeURIComponent(data))['pageContent'];
+            }catch(e){
+                console.log(e.name + ": " + e.message);
+            }
+            // console.log(data);
+            // console.log(decodeURIComponent(data));
             
             mkdirs(_path,'0777',function(){ 
                 writeFile(pageName, data, function(){
-                    var _subStart = data.indexOf('packetSetting:{"tplId":"')
-                    if(_subStart>0){  //写入抢红包第二个页面
-                        var packetTplId = data.substring(_subStart+24,_subStart+25); //获取模板 id
-                        if(parseInt(packetTplId)>0){
-                            console.log("packet:create grapbonus page now");
-                            var newData= data.replace('<a href="grabBonus.html">','<div class="show-ajax-data"><span class="data-get">00000</span><span class="data-share">00</span><a href="#nolink" class="show-detail"></a>')
-                                             .replace('images/packet_big_'+packetTplId+'_1.png"></a>','images/packet_big_'+packetTplId+'_2.png"></div>')
-                                             .replace('<body>','<link type="text/css" href="../../../static/css/grabBonus.css" rel="stylesheet"><body class="tpl_'+packetTplId+'">')
-                                             .replace('</body>','<script type="text/javascript" src="../../../static/js/jquery-1.10.2.min.js"></script><script>$(function(){console.log("start ajax")})</script>');
-                            writeFile(bonusName, newData);
-                        }
-                    }
+                    if(data){
+                       var _subStart = data.indexOf('packetSetting:{"tplId":"')
+                        if(_subStart>0){  //写入抢红包第二个页面
+                            var packetTplId = data.substring(_subStart+24,_subStart+25); //获取模板 id
+                            if(parseInt(packetTplId)>0){
+                                console.log("packet:create grapbonus page now");
+                                var newData= data.replace('<a href="grabBonus.html">','<div class="show-ajax-data"><span class="data-get">00000</span><span class="data-share">00</span><a href="#nolink" class="show-detail"></a>')
+                                                 .replace('images/packet_big_'+packetTplId+'_1.png"></a>','images/packet_big_'+packetTplId+'_2.png"></div>')
+                                                 .replace('<body>','<link type="text/css" href="../../../static/css/grabBonus.css" rel="stylesheet"><body class="tpl_'+packetTplId+'">')
+                                                 .replace('</body>','<script type="text/javascript" src="../../../static/js/jquery-1.10.2.min.js"></script><script>$(function(){console.log("start ajax")})</script>');
+                                writeFile(bonusName, newData);
+                            }
+                        } 
+                    }      
                 })
             });
         });
