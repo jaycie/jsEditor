@@ -41,7 +41,6 @@
 
 	}).on('mouseup', function(e){
 		inEditContent && (function(){
-			console.log("--------------"+this.posix);
 			var _domLeft = editContentDom.offset().left,
 				_domTop = editContentDom.offset().top,
 				_dragLeft = parseInt($(dragDiv).css('left')),

@@ -211,8 +211,6 @@
     */
     function commonCommand (e, commandName, commandValue, callback) {
         var commandHook;
-        //恢复选中区+
-        restoreSelection();
         if(!currentRange){
             e.preventDefault();
             return;
@@ -222,6 +220,8 @@
         if(commandEnabled(commandName) === true){
             document.execCommand(commandName, false, commandValue);
         }else{
+            //恢复选中区+
+            restoreSelection();
             commandHook = commandHooks[commandName];
             if(commandHook){
                 commandHook(commandName, commandValue);
@@ -700,7 +700,7 @@
                         
                         $('#packetSave').off('click').on('click',function(e){
                             var _loc = 'http://'+location.host+location.pathname;
-                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除"><a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
+                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;"><a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
                             jDrag('#'+dragId, '#'+scaleId, true);
                             packetSetting.totalMoney= $('#totalMoney').val();
                             packetSetting.totalPoint= $('#totalPoint').val();
