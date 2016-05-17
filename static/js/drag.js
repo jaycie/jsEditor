@@ -40,7 +40,6 @@
 		}());
 
 	}).on('mouseup', function(e){
-		console.log(this.posix);
 		inEditContent && (function(){
 			console.log("--------------"+this.posix);
 			var _domLeft = editContentDom.offset().left,
