@@ -80,56 +80,21 @@ function uploadImg(response,request) {
 
 function poster(response, request){
     console.log("now poster");
-    var arg=url.parse(request.url, true).query
+    var arg=url.parse(request.url, true).query,
         _path='../poster/'+arg.lId +'/'+arg.aId,
-    // var pageName= '../poster/'+new Date().getTime() +"_"+ parseInt(Math.random()*1000)+".html";
         pageName=_path+'/'+arg.tId+'.html',
-        bonusName=_path+'/'+'grabBonus.html';
-    function mkdirs(dirname, mode, callback){ //判断目录是否存在,不存在递归创建
-        var path = require("path");
-        fs.exists(dirname, function (exists){
-            if(exists){
-                callback();
-            }else{
-                console.log(path.dirname(dirname));
-                mkdirs(path.dirname(dirname), mode, function (){
-                    fs.mkdir(dirname, mode, callback);
-                });
-            }
-        });
-    }
-
-    function writeFile(file, datas, callback){
-        fs.open(file, 'w+', function opened(err, fd) { //文件覆盖 如果是追加用 a
-            if (err) { throw err; }
-            // var writeBuffer = new Buffer(datas),
-            var writeBuffer = util.isBuffer(datas) ? datas : new Buffer('' + datas,'utf8'),
-            bufferPosition = 0,
-            bufferLength = writeBuffer.length, filePosition = null;
-            // console.log(writeBuffer);
-            fs.write(fd,writeBuffer,bufferPosition,bufferLength,filePosition,function wrote(err, written) {
-                if (err) { throw err; }
-                console.log('wrote ' + written + ' bytes');
-                response.writeHead(200, {"Content-Type": "text/html"});
-                fs.readFile(file,function (err,bufferData){
-                    response.end(bufferData);
-                    callback && callback();
-                });
-            });
-        });
-    }
+        bonusName=_path+'/'+'grabBonus.html',
+        d='';
 
     if(request.url!=="/favicon.ico"){
-        request.on('data',function(data){
+        request.on('data',function(_data){
             // var data = decodeURIComponent(data).replace(/\+/g,' ').replace('pageContent=','');
+            d +=_data;  //debug 丢包
             try{
-                var data = querystring.parse(decodeURIComponent(data))['pageContent'];
+                var data = querystring.parse(decodeURIComponent(d))['pageContent'];
             }catch(e){
                 console.log(e.name + ": " + e.message);
             }
-            // console.log(data);
-            // console.log(decodeURIComponent(data));
-            
             mkdirs(_path,'0777',function(){ 
                 writeFile(pageName, data, function(){
                     if(data){
@@ -151,6 +116,40 @@ function poster(response, request){
         });
         request.on("end",function(){
             console.log('form receive data success');
+        });
+    }
+
+    function mkdirs(dirname, mode, callback){ //判断目录是否存在,不存在递归创建
+        var path = require("path");
+        fs.exists(dirname, function (exists){
+            if(exists){
+                callback();
+            }else{
+                console.log(path.dirname(dirname));
+                mkdirs(path.dirname(dirname), mode, function (){
+                    fs.mkdir(dirname, mode, callback);
+                });
+            }
+        });
+    }
+
+    function writeFile(file, datas, callback){
+        fs.open(file, 'w+', function opened(err, fd) { //文件覆盖 如果是追加用 a
+            if (err) { throw err; }
+            // var writeBuffer = new Buffer('' + datas,'utf8'),
+            var writeBuffer = util.isBuffer(datas) ? datas : new Buffer('' + datas,'utf8'),
+            bufferPosition = 0,
+            bufferLength = writeBuffer.length, filePosition = null;
+            // console.log(writeBuffer);
+            fs.write(fd,writeBuffer,bufferPosition,bufferLength,filePosition,function wrote(err, written) {
+                if (err) { throw err; }
+                console.log('wrote ' + written + ' bytes');
+                response.writeHead(200, {"Content-Type": "text/html"});
+                fs.readFile(file,function (err,bufferData){
+                    response.end(bufferData);
+                    callback && callback();
+                });
+            });
         });
     }
 }
