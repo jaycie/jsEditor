@@ -65,7 +65,7 @@ $(function(){
 	$('#createPageNow').on('click',function(){
 		var cPConfig={
 			// url:　$dragBox.css('backgroundImage').replace('url(\"','').replace('\")',''),
-			url:　$dragBox.css('backgroundImage').replace('url(','').replace(')','').replace(/\'/,'').replace(/\"/,''),  //debug 360 browser
+			url:　$dragBox.css('backgroundImage').replace('url(','').replace(')','').replace(/\'/g,'').replace(/\"/g,''),  //debug 360 browser
 			top: $dragBox.css('top'),
 			left: $dragBox.css('left'),
 			width: $dragBox.css('width'),  //待计算转化
@@ -77,9 +77,9 @@ $(function(){
 			_html= '<!DOCTYPE html><html><head><meta charset="utf-8">' +
 				'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>' +
 				'<title>海报内容</title></head>' +
-				'<style>body{margin: 0;padding: 0;max-width: 100%;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';}'+
+				'<style>body{margin: 0;padding: 0;max-width: 100%;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top}'+
 				$('#exportCss').text()+'</style>' +
-				'<body><img src="'+cPConfig.url+'" class="drag-bg">' +
+				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
 			   	$('.textarea').html();
 			_js = '<script>var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};</script>';
