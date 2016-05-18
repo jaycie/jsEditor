@@ -597,7 +597,7 @@
             'description': '表单',
             'type': 'modal',
             'txt': 'fa fa-list',
-            'class': 'btn-lg',  //大按钮
+            'class': 'btn-lg  diy-attr',  //大按钮
             'appendClass': 'modal-small',
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
@@ -656,7 +656,7 @@
             'type': 'modal',
             'txt': 'fa fa-suitcase',
             'command': 'fontName ',
-            'class': 'btn-lg',
+            'class': 'btn-lg diy-attr',   //diy-attr 自定义属性，if{param@diy=true show}else{hide} 
             'appendClass': 'modal-big',
             'modal': (function () {
                 window.packetSetting = {  //红包配置信息，生成静态页面用到

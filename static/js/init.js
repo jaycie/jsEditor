@@ -8,11 +8,16 @@ $(function(){
 	var $editor = $('#JEditor').JEditor(),
 		$dragBox = $("#JDragBox"),
 
+		diy= getUrl('diy'),
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
 		tId= getUrl('tId');  //template id;
 
 	(function getId(){
+		if(!diy){ //非自定义编辑，即普通可视化编辑，不需要表单／红包，无需后端接口交互
+			$('.diy-attr').addClass('hide');
+		}
+
 		var edit= getUrl('edit');
 		if(!aId || !lId || !tId){
 			return;
