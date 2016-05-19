@@ -14,7 +14,7 @@ $(function(){
 		tId= getUrl('tId');  //template id;
 
 	(function getId(){
-		if(!diy){ //非自定义编辑，即普通可视化编辑，不需要表单／红包，无需后端接口交互
+		if(!diy || diy==='false'){ //非自定义编辑，即普通可视化编辑，不需要表单／红包，无需后端接口交互
 			$('.diy-attr').addClass('hide');
 		}
 
