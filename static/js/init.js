@@ -49,7 +49,7 @@ $(function(){
 		if(dom.html()===''){
 			dom.html('<p> </p>');
 		}
-	})
+	});
 
 	function _drag(){  //拖拽相关
 		var url=getUrl('imgUrl');

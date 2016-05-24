@@ -48,9 +48,17 @@
 	        };
 	    
 	    $.extend(document, {'move': true, 'call_down': function(e) {
+	    	var _width = Math.max(30, e.pageX - posix.x + posix.w),
+	    		_height = Math.max(30, e.pageY - posix.y + posix.h);
+	    	console.log(_width+'---------'+_height);
+	    	if(_height>736){
+	    		$('#enabledTextArea').css('height', _height);
+	    	}else {
+	    		$('#enabledTextArea').css('height','736');
+	    	}
 	        $box.css({
-	            'width': Math.max(30, e.pageX - posix.x + posix.w),
-	            'height': Math.max(30, e.pageY - posix.y + posix.h)
+	            'width': _width>412 ? 412 : _width,
+	            'height': _height
 	        });
 	    }});
 	    return false;

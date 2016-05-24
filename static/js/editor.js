@@ -559,6 +559,7 @@
                         _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
                             if($(this).attr('src')===_imgSrc){
                                 $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
+                                $('#'+dragId).find('img').attr('ondragstart','return false');
                                 jDrag('#'+dragId, '#'+scaleId, true);
                             }
                         })                    
@@ -712,6 +713,7 @@
                         $('#packetSave').off('click').on('click',function(e){
                             var _loc = 'http://'+location.host+location.pathname;
                             $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;max-width:100%"><a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
+                            $('#'+dragId).find('img').attr('ondragstart','return false');
                             jDrag('#'+dragId, '#'+scaleId, true);
                             packetSetting.totalMoney= $('#totalMoney').val();
                             packetSetting.totalPoint= $('#totalPoint').val();
