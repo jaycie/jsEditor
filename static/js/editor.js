@@ -542,8 +542,6 @@
                     btnIdNative = getUniqeId(),
                     urlTxtId = getUniqeId(),
                     btnId = getUniqeId(),
-                    dragId = getUniqeId(),
-                    scaleId = getUniqeId(),
                     _imgSrc='',
             
                     $modal = $(
@@ -555,6 +553,9 @@
                         '<iframe name="upload" style="display:none"></iframe></div>'
                     ),
                     callback = function(e){
+                        var dragId = getUniqeId()+id,
+                            scaleId = getUniqeId()+id;
+                        ++id;
                         $modal.find('#' + urlTxtId).val('');
                         _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
                             if($(this).attr('src')===_imgSrc){
