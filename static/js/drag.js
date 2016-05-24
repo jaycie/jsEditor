@@ -3,14 +3,19 @@
  * Email: xiezhanggen@gmail.com
  */
  var jDrag = function(dragDiv, scaleDiv, inEditContent) {
- 	var editContentDom = $('#enabledTextArea');
+ 	var editContentDom = $('#enabledTextArea'),
+ 		_posix = {
+ 			x: inEditContent ? editContentDom.offset().left : 0,
+ 			y: inEditContent ? editContentDom.offset().top : 0
+ 		};
+
  	$(document).mousemove(function(e) {
 		if (!!this.move && $(e.target).attr('class') !=='content') {  // &&不在点击保存按钮上
 			var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
 				callback = document.call_down || function() {
 					$(this.move_target).css({
-						'top': e.pageY - posix.y,
-						'left': e.pageX - posix.x
+						'top': e.pageY - posix.y - _posix.y,
+						'left': e.pageX - posix.x - _posix.x
 					});
 				};
 
@@ -34,20 +39,6 @@
 	    
 	    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
 	    $.extend(document, {'move': true, 'move_target': this});
-
-	    inEditContent && (function(){
-			editContentDom.removeClass('editorEnble');
-		}());
-
-	}).on('mouseup', function(e){
-		inEditContent && (function(){
-			var _domLeft = editContentDom.offset().left,
-				_domTop = editContentDom.offset().top,
-				_dragLeft = parseInt($(dragDiv).css('left')),
-				_dragTop = parseInt($(dragDiv).css('top'));
-			$(dragDiv).css({'left':_dragLeft-_domLeft + 'px','top':_dragTop-_domTop+'px'});
-			editContentDom.addClass('editorEnble');	
-		}());
 	}).on('mousedown', scaleDiv, function(e) {
 	    var posix = {
 	            'w': $box.width(), 
@@ -79,7 +70,6 @@ $(function(){
 				$('#enabledTextArea').addClass('editorEnble');  //内容成可编辑
 
 				$("#JEditor .btn-redo").removeClass('hide');  //上传完成，第一版不做可编辑
-				// $('#JDragBox .btn-save').addClass('hide');
 				$('#JScaleBox').addClass('hide');
 			}
 		}

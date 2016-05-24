@@ -209,19 +209,20 @@
     *       commandValue:   document.execCommand可接受的第二个参数值
     *       callback    ：  执行完对原事件处理的回调
     */
-    function commonCommand (e, commandName, commandValue, callback) {
+    function commonCommand (e, commandName, commandValue, callback, getSelection) {
         var commandHook;
         if(!currentRange){
             e.preventDefault();
             return;
         }
 
+        //恢复选中区+
+        getSelection && restoreSelection();  //不同浏览器兼容性 
+
         //执行
         if(commandEnabled(commandName) === true){
             document.execCommand(commandName, false, commandValue);
         }else{
-            //恢复选中区+
-            restoreSelection();
             commandHook = commandHooks[commandName];
             if(commandHook){
                 commandHook(commandName, commandValue);
@@ -514,7 +515,7 @@
                         url = document.getElementById(urlTxtId).value;  //for IE6
                     }
                     if(url !== ''){
-                        commonCommand(e, 'createLink', url, callback);
+                        commonCommand(e, 'createLink', url, callback, true);
                     }
                 });
 
@@ -541,6 +542,9 @@
                     btnIdNative = getUniqeId(),
                     urlTxtId = getUniqeId(),
                     btnId = getUniqeId(),
+                    dragId = getUniqeId(),
+                    scaleId = getUniqeId(),
+                    _imgSrc='',
             
                     $modal = $(
                         '<div><form action="'+siteConfig.url.base+siteConfig.url.upload+'" method="POST" enctype="multipart/form-data" target="upload">' +
@@ -550,8 +554,14 @@
                         '   <td><button id="' + btnId + '" type="button">插入</button></td></tr></table>' + 
                         '<iframe name="upload" style="display:none"></iframe></div>'
                     ),
-                    callback = function(){
+                    callback = function(e){
                         $modal.find('#' + urlTxtId).val('');
+                        _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
+                            if($(this).attr('src')===_imgSrc){
+                                $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
+                                jDrag('#'+dragId, '#'+scaleId, true);
+                            }
+                        })                    
                     };
                 $modal.find('#' + btnId).click(function(e){
                     var url = $.trim($modal.find('#' + urlTxtId).val());
@@ -559,7 +569,8 @@
                         url = document.getElementById(urlTxtId).value;
                     }
                     if(url !== ''){
-                        commonCommand(e, 'insertImage', url, callback);
+                        _imgSrc=url;
+                        commonCommand(e, 'insertImage', url, callback, true);
                     }
                 });
 
