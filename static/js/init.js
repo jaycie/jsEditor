@@ -44,13 +44,6 @@ $(function(){
 		}
 	}());
 
-	$(document).on('keyup', function(){
-		var dom=$('#enabledTextArea');
-		if(dom.html()===''){
-			dom.html('<p> </p>');
-		}
-	});
-
 	function _drag(){  //拖拽相关
 		var url=getUrl('imgUrl');
 		if($dragBox.css('backgroundImage')==='none' && !url){

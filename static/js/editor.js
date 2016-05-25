@@ -9,7 +9,8 @@
 	    defaultHeight = 100,
 	    menus,  //存储菜单配置
 		currentRange,      //记录当前选中范围
-        $txt = $('<div contenteditable="true" class="textarea" id="enabledTextArea"></div>'),  //编辑区
+        // $txt = $('<div contenteditable="true" class="textarea" id="enabledTextArea"></div>'),  //编辑区
+        $txt = $('<div contenteditable="true" class="textarea"></div>'),  //编辑区
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
         $form = {
             action : {
@@ -557,13 +558,23 @@
                             scaleId = getUniqeId()+id;
                         ++id;
                         $modal.find('#' + urlTxtId).val('');
-                        _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
-                            if($(this).attr('src')===_imgSrc){
-                                $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
-                                $('#'+dragId).find('img').attr('ondragstart','return false');
-                                jDrag('#'+dragId, '#'+scaleId, true);
+                        // _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
+                        //     if($(this).attr('src')===_imgSrc){
+                        //         $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
+                        //         jDrag('#'+dragId, '#'+scaleId, true);
+                        //     }
+                        // }) 
+                        if(_imgSrc){
+                            var _dom = $txt.find('img'),
+                                _len = _dom.length;
+                            for(var i=_len;i>0;i--){
+                                if($(_dom[i-1]).attr('src')===_imgSrc){
+                                    $(_dom[i-1]).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(_dom[i-1])[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
+                                    jDrag('#'+dragId, '#'+scaleId, true);
+                                    return;
+                                }
                             }
-                        })                    
+                        }                  
                     };
                 $modal.find('#' + btnId).click(function(e){
                     var url = $.trim($modal.find('#' + urlTxtId).val());

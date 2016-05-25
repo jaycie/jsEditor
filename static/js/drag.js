@@ -3,7 +3,7 @@
  * Email: xiezhanggen@gmail.com
  */
  var jDrag = function(dragDiv, scaleDiv, inEditContent) {
- 	var editContentDom = $('#enabledTextArea'),
+ 	var editContentDom = $('.textarea'),
  		_posix = {
  			x: inEditContent ? editContentDom.offset().left : 0,
  			y: inEditContent ? editContentDom.offset().top : 0
@@ -50,11 +50,10 @@
 	    $.extend(document, {'move': true, 'call_down': function(e) {
 	    	var _width = Math.max(30, e.pageX - posix.x + posix.w),
 	    		_height = Math.max(30, e.pageY - posix.y + posix.h);
-	    	console.log(_width+'---------'+_height);
 	    	if(_height>736){
-	    		$('#enabledTextArea').css('height', _height);
+	    		$('.textarea').css('height', _height);
 	    	}else {
-	    		$('#enabledTextArea').css('height','736');
+	    		$('.textarea').css('height','736');
 	    	}
 	        $box.css({
 	            'width': _width>412 ? 412 : _width,
@@ -71,11 +70,11 @@ $(function(){
 	$.extend({
 		drag: function(bool){
 			if(bool){
-				$('#enabledTextArea').removeClass('editorEnble');
+				$('.textarea').removeClass('editorEnble');
 				$("#JEditor .btn-redo").addClass('hide');
 				$('#JScaleBox').removeClass('hide');
 			}else{
-				$('#enabledTextArea').addClass('editorEnble');  //内容成可编辑
+				$('.textarea').addClass('editorEnble');  //内容成可编辑
 
 				$("#JEditor .btn-redo").removeClass('hide');  //上传完成，第一版不做可编辑
 				$('#JScaleBox').addClass('hide');

@@ -85,7 +85,7 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 <script>
 	window.siteConfig= { //处理图片 文件上传等动态服务器路径
 		url : { 
-      		base: location.protocol+'//'+location.hostname+'/node/', //node 处理服务器,nodejs port为8888 可设置ngnix or apache转发，若没设置，请用8888端口号
+      		base: location.protocol+'//'+location.hostname+':8888/', //node 处理服务器,nodejs port为8888 可设置ngnix or apache转发，若没设置，请用8888端口号
 			upload: 'upload',    //上传图片
 			show: 'uploadImg',   //显示图片
 			poster: 'poster',  //生成静态文件
