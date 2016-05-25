@@ -285,6 +285,7 @@
                 return $ul; 
             })()
         },
+        /* 该版本暂时去除字体，不大明显 意义不大
         {
             'title': '字体',
             'type': 'dropMenu',
@@ -306,6 +307,7 @@
                 return $ul; 
             })()
         },
+        */
         'split',
     	{
             'title': '加粗',
@@ -841,7 +843,7 @@
                     $dropMenu.show();
                     e.preventDefault();
                 }).blur(function(e){
-                    setTimeout(hideDropMenu, 100);  //先执行完，再隐藏
+                    setTimeout(hideDropMenu, 400);  //先执行完，再隐藏
                 });
 
                 //命令（使用事件代理）
