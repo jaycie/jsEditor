@@ -558,23 +558,12 @@
                             scaleId = getUniqeId()+id;
                         ++id;
                         $modal.find('#' + urlTxtId).val('');
-                        // _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
-                        //     if($(this).attr('src')===_imgSrc){
-                        //         $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
-                        //         jDrag('#'+dragId, '#'+scaleId, true);
-                        //     }
-                        // }) 
-                        if(_imgSrc){
-                            var _dom = $txt.find('img'),
-                                _len = _dom.length;
-                            for(var i=_len;i>0;i--){
-                                if($(_dom[i-1]).attr('src')===_imgSrc){
-                                    $(_dom[i-1]).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(_dom[i-1])[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
-                                    jDrag('#'+dragId, '#'+scaleId, true);
-                                    return;
-                                }
+                        _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
+                            if($(this).attr('src')===_imgSrc){
+                                $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
+                                jDrag('#'+dragId, '#'+scaleId, true);
                             }
-                        }                  
+                        })                 
                     };
                 $modal.find('#' + btnId).click(function(e){
                     var url = $.trim($modal.find('#' + urlTxtId).val());
@@ -582,6 +571,7 @@
                         url = document.getElementById(urlTxtId).value;
                     }
                     if(url !== ''){
+                        url+='?id='+id;
                         _imgSrc=url;
                         commonCommand(e, 'insertImage', url, callback, true);
                     }
