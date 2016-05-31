@@ -22,7 +22,11 @@ $(function(){
 		if(!aId || !lId || !tId){
 			return;
 		}else{
-			$('#createPage').prop('action',siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId);
+			var _action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId;
+			$('#createPage').prop('action',_action);
+			$.post(_action,{pageContent:''},function(){ //生成空白页面，防止404
+			    console.log('create new blank page success');
+		  	});
 			if(edit){
 				$('#JDragBox').before('<iframe src="poster/'+lId+'/'+aId+'/'+tId+'.html" style="display:none" name="poster" id="poster"></iframe>');
 				$('#poster').load(function(){
@@ -41,6 +45,8 @@ $(function(){
 			}else{
 				_drag();
 			}
+
+
 		}
 	}());
 
