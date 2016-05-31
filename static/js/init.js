@@ -61,7 +61,8 @@ $(function(){
 			alert('请先上传背景图');
 			$('.insertImage').trigger('click');
 		}else{
-			var imgUrl = siteConfig.url.base+siteConfig.url.show+'?imgUrl='+getUrl('imgUrl');
+			// var imgUrl = siteConfig.url.base+siteConfig.url.show+'?imgUrl='+getUrl('imgUrl');  //不走node
+			var imgUrl = siteConfig.url.editor+'node/upload/'+getUrl('imgUrl');
 			//ctrl iframe parent dom
 			$(window.parent.document).find('.insertImageBox').hide();
 			$(window.parent.document).find('.mask').hide();
