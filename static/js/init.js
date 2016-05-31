@@ -93,7 +93,7 @@ $(function(){
 			_html= '<!DOCTYPE html><html><head><meta charset="utf-8">' +
 				'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>' +
 				'<title>海报内容</title></head>' +
-				'<style>body{margin: 0;padding: 0;max-width: 100%;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}'+
+				'<style>body{margin: 0;padding: 0;max-width: 100%;overflow-x:hidden;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}'+
 				$('#exportCss').text()+'</style>' +
 				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
