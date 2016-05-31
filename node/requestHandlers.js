@@ -81,7 +81,7 @@ function uploadImg(response,request) {
 function poster(response, request){
     console.log("now poster");
     var arg=url.parse(request.url, true).query,
-        _path='../poster/'+arg.lId +'/'+arg.aId,
+        _path= arg.diy ? '../poster/diy/'+arg.lId +'/'+arg.aId : '../poster/'+arg.lId +'/'+arg.aId,
         pageName=_path+'/'+arg.tId+'.html',
         bonusName=_path+'/'+'grabBonus.html',
         d='';

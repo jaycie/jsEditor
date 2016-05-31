@@ -8,7 +8,8 @@ $(function(){
 	var $editor = $('#JEditor').JEditor(),
 		$dragBox = $("#JDragBox"),
 
-		diy= getUrl('diy'),
+		diy= !!getUrl('diy'),
+		_diy='',
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
 		tId= getUrl('tId');  //template id;
@@ -22,7 +23,10 @@ $(function(){
 		if(!aId || !lId || !tId){
 			return;
 		}else{
-			var _action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId;
+			if(diy){
+				_diy='&diy='+diy;
+			}
+			var _action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
 			$('#createPage').prop('action',_action);
 			$.post(_action,{pageContent:''},function(){ //生成空白页面，防止404
 			    console.log('create new blank page success');
