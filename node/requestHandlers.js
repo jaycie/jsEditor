@@ -11,7 +11,7 @@ function start(response,request) {
         '<meta charset="UTF-8" />'+
         '</head>'+
         '<body>'+
-        '<form action="/upload" enctype="multipart/form-data" '+
+        '<form action="/node/upload" enctype="multipart/form-data" '+
         'method="post">'+
         '<input type="file" name="upload" multiple="multiple">'+
         '<input type="submit" value="Upload file" />'+

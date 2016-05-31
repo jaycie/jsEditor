@@ -10,9 +10,15 @@ $(function(){
 
 		diy= !!getUrl('diy'),
 		_diy='',
+		_action,
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
 		tId= getUrl('tId');  //template id;
+
+	if(diy){
+		_diy='&diy='+diy;
+	}
+	_action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
 
 	(function getId(){
 		if(!diy || diy==='false'){ //非自定义编辑，即普通可视化编辑，不需要表单／红包，无需后端接口交互
@@ -23,14 +29,8 @@ $(function(){
 		if(!aId || !lId || !tId){
 			return;
 		}else{
-			if(diy){
-				_diy='&diy='+diy;
-			}
-			var _action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
 			$('#createPage').prop('action',_action);
-			$.post(_action,{pageContent:''},function(){ //生成空白页面，防止404
-			    console.log('create new blank page success');
-		  	});
+			
 			if(edit){
 				$('#JDragBox').before('<iframe src="poster/'+lId+'/'+aId+'/'+tId+'.html" style="display:none" name="poster" id="poster"></iframe>');
 				$('#poster').load(function(){
@@ -49,14 +49,15 @@ $(function(){
 			}else{
 				_drag();
 			}
-
-
 		}
 	}());
 
 	function _drag(){  //拖拽相关
 		var url=getUrl('imgUrl');
 		if($dragBox.css('backgroundImage')==='none' && !url){
+			$.post(_action,{pageContent:''},function(){ //生成空白页面，防止404
+			    console.log('create new blank page success');
+		  	});
 			alert('请先上传背景图');
 			$('.insertImage').trigger('click');
 		}else{
