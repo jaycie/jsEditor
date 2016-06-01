@@ -8,14 +8,14 @@ $(function(){
 	var $editor = $('#JEditor').JEditor(),
 		$dragBox = $("#JDragBox"),
 
-		diy= !!getUrl('diy'),
+		diy= getUrl('diy'),
 		_diy='',
 		_action,
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
 		tId= getUrl('tId');  //template id;
 
-	if(diy){
+	if(diy==='true'){
 		_diy='&diy='+diy;
 	}
 	_action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
