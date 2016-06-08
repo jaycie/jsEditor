@@ -94,7 +94,7 @@ $(function(){
 			_html= '<!DOCTYPE html><html><head><meta charset="utf-8">' +
 				'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>' +
 				'<title>海报内容</title></head>' +
-				'<style>html{overflow-x:hidden;max-width: 100%;min-height: 100%;}body{margin: 0;padding: 0;max-width: 100%;overflow-x:hidden;height: 100%;position: relative;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}.qrcode{position: absolute;left:6%;bottom: 6%;width: 88%;height: 150px}.qrcode-img{width: 50%;position: absolute;left: 0;top: 0}.qrcode-text{position: absolute;left: 60%;top: 40px;font-size: 1rem;text-align: center;}'+
+				'<style>html{overflow-x:hidden;max-width: 100%;height: 100%;}body{margin: 0;padding: 0;max-width: 100%;overflow-x:hidden;height: 100%;position: relative;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}.qrcode{position: absolute;left:6%;bottom: 6%;width: 88%;height: 150px}.qrcode-img{width: 50%;position: absolute;left: 0;top: 0}.qrcode-text{position: absolute;left: 60%;top: 40px;font-size: 1rem;text-align: center;}'+
 				$('#exportCss').text()+'</style>' +
 				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
