@@ -22,7 +22,7 @@ var $editor = $('#JEditor').JEditor()
  - 如果有红包／表单与数据库交互：配置static/js/editor.js中的$packet／$form变量
  - 进入源码目录，找到 `node/index.js` 命令行中运行 `node index.js`，建议安装forever
  - 打开浏览器访问 `http://localhost/jsEditor/index.html?lId=68&aId=228&tId=1` 
- - nodejs根据url传递的参数生成相应的文件夹／文件名,规则poster/lID/aId/tId.html
+ - nodejs根据url传递的参数生成相应的文件夹／文件名,规则poster/lId/aId/tId.html
 
 # 4. 交流
 

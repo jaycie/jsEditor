@@ -55,8 +55,8 @@ $(function(){
 	function _drag(){  //拖拽相关
 		var url=getUrl('imgUrl');
 		if($dragBox.css('backgroundImage')==='none' && !url){
-			$.post(_action,{pageContent:''},function(){ //生成空白页面，防止404
-			    console.log('create new blank page success');
+			$.post(_action+'&newBlank=true',{pageContent:''},function(){ //生成空白页面，防止404
+			    console.log('try to create a new blank page');
 		  	});
 			alert('请先上传背景图');
 			$('.insertImage').trigger('click');
@@ -94,12 +94,13 @@ $(function(){
 			_html= '<!DOCTYPE html><html><head><meta charset="utf-8">' +
 				'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>' +
 				'<title>海报内容</title></head>' +
-				'<style>html{overflow-x:hidden;max-width: 100%;height: 100%;}body{margin: 0;padding: 0;max-width: 100%;overflow-x:hidden;height: 100%;position: relative;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}'+
+				'<style>html{overflow-x:hidden;max-width: 100%;height: 100%;}body{margin: 0;padding: 0;max-width: 100%;overflow-x:hidden;height: 100%;position: relative;}body img{max-width:100%;max-height:100%}.drag-bg{position:absolute;z-index:-1;left:0;top:'+_img.top+';width:'+cPConfig.width+';height:'+cPConfig.height+';background-image:url('+cPConfig.url+');background-position:center top;max-width:100%;}.qrcode{position: absolute;left:6%;bottom: 6%;width: 88%;height: 150px}.qrcode-img{width: 50%;position: absolute;left: 0;top: 0}.qrcode-text{position: absolute;left: 60%;top: 40px;font-size: 1rem;text-align: center;}'+
 				$('#exportCss').text()+'</style>' +
 				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
 			   	$('.textarea').html();
-			_js = '<script>var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};</script>';
+			_js = '<script>var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};'+ 
+				  'function getUrl(param){var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)"),r = window.location.search.substr(1).match(reg);if(r!=null)return  unescape(r[2]); return null;}function insertScript(src,callback){var oHead = document.getElementsByTagName("HEAD").item(0),oScript= document.createElement("script");oScript.type = "text/javascript";oScript.src=src;oHead.appendChild( oScript);if(callback){oScript.onload=function(){callback()}}}if(getUrl("qrcode")){insertScript("http://www.yjsvip.com/member/publicStatic/h5ds/scripts/library/jquery-2.0.0.min.js",function(){insertScript("http://www.yjsvip.com/member/js/jquery.qrcode.min.js",function(){$("body").append(\'<div class="qrcode"><div id="qrcode-img" class="qrcode-img"></div><div class="qrcode-text"><p>长按识别二维码</p><p>查看楼盘详情</p></div></div>\');_url=getUrl("qrcodeText")||"http://www.yjsvip.com/";$("#qrcode-img").qrcode({width:150,height:150,text:_url});})});}</script>';
 		
 		var ajaxUrl = $('#postActUrl').val(); //有表单数据
 		if(ajaxUrl){

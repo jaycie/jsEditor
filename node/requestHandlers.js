@@ -123,6 +123,10 @@ function poster(response, request){
         var path = require("path");
         fs.exists(dirname, function (exists){
             if(exists){
+                // if(arg.newBlank){  //新生成页面
+                //     console.log('file: '+pageName+' has already existed');
+                //     return;
+                // }
                 callback();
             }else{
                 console.log(path.dirname(dirname));
@@ -136,8 +140,8 @@ function poster(response, request){
     function writeFile(file, datas, callback){
         fs.open(file, 'w+', function opened(err, fd) { //文件覆盖 如果是追加用 a
             if (err) { throw err; }
-            // var writeBuffer = new Buffer('' + datas,'utf8'),
-            var writeBuffer = util.isBuffer(datas) ? datas : new Buffer('' + datas,'utf8'),
+            var writeBuffer = new Buffer('' + datas,'utf8'),
+            // var writeBuffer = util.isBuffer(datas) ? datas : new Buffer('' + datas,'utf8'), //0.10以下node版本isBuffer报错
             bufferPosition = 0,
             bufferLength = writeBuffer.length, filePosition = null;
             // console.log(writeBuffer);
