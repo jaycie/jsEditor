@@ -660,6 +660,19 @@
                     _form +='<tr contenteditable="true"><th><input type="hidden" name="postActUrl" id="postActUrl" value="'+$form.action.base+$form.action.postActForm+'" /></th> <td class="right"><button id="submitSave" type="button" class="btn btn-important">保存</button></td></</table>';
                     _submitVal = _submitVal.substr(0,_submitVal.length-1);
                     $('#newActValue').val(_submitVal+']');
+                    var _pInfo = {
+                            'lId':parseInt(getUrl('lId')), 
+                            'aId':parseInt(getUrl('aId')), 
+                            'tId':parseInt(getUrl('tId'))
+                        };
+                    $.ajax({
+                        url: $('#newActUrl').val(),
+                        data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':JSON.stringify($('#newActValue').val())},
+                        dataType: 'jsonp',
+                        success: function(data){
+                            console.log('send form success');
+                        }
+                    })
                     commonCommand(e, 'insertHTML', _form, callback);
                 });
 
@@ -716,12 +729,32 @@
                         
                         $('#packetSave').off('click').on('click',function(e){
                             var _loc = 'http://'+location.host+location.pathname;
-                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;max-width:100%"><a href="grabBonus.html"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
+                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;max-width:100%"><a href="#nolink" id="grabBonus"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
                             $('#'+dragId).find('img').attr('ondragstart','return false');
                             jDrag('#'+dragId, '#'+scaleId, true);
                             packetSetting.totalMoney= $('#totalMoney').val();
                             packetSetting.totalPoint= $('#totalPoint').val();
                             packetSetting.totalOnly= $('#totalOnly').val();  
+                            var _pInfo = {
+                                    'lId':parseInt(getUrl('lId')), 
+                                    'aId':parseInt(getUrl('aId')), 
+                                    'tId':parseInt(getUrl('tId'))
+                                },
+                                _fInfo = {
+                                    'tId':parseInt(packetSetting.tplId), 
+                                    'totalMoney':parseInt(packetSetting.totalMoney), 
+                                    'totalPoint':parseInt(packetSetting.totalPoint), 
+                                    'totalOnly':parseInt(packetSetting.totalOnly)
+                                };
+
+                            $.ajax({
+                                url: $('#newActPacket').val(),
+                                data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':JSON.stringify(_fInfo)},
+                                dataType: 'jsonp',
+                                success: function(data){
+                                    console.log('send packet success');
+                                }
+                            })
                         });
 
                         $('#packetSetting .close').on('click',function(){
