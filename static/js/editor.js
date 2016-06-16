@@ -719,7 +719,7 @@
                             var _left = 200 + parseFloat($modal.css('left')) + 'px',
                                 html = '<div class="modal modal-small" id="packetSetting" style="display:block;left:'+_left+';top:'+$modalTopDefault+'">' +
                                         '<div class="header"><a href="#" class="close"><i class="fa fa-close"></i></a><b>配置红包</b><div class="cf"></div><div class="line"></div></div>'+
-                                        '<table><tr><td>单个红包金额：</td><td><input type="number" name="totalMoney" id="totalMoney" min="1" max="100000000" oninput="if(value.length>9)value=value.slice(0,9)"  style="width:170px;"/></td></tr>' +
+                                        '<table><tr><td>单个红包积分：</td><td><input type="number" name="totalMoney" id="totalMoney" min="1" max="100000000" oninput="if(value.length>9)value=value.slice(0,9)"  style="width:170px;"/></td></tr>' +
                                         '<tr><td>总份数：</td><td><input type="number" name="totalPoint" id="totalPoint" min="1" max="100000" style="width:170px;" oninput="if(value.length>6)value=value.slice(0,6)" /></td></tr>' +
                                         '<tr><td>单红包分享个数：</td><td><input type="number" name="totalOnly" id="totalOnly" min="1" max="100000" style="width:170px;" oninput="if(value.length>6)value=value.slice(0,6)" /></td></tr></table>' +
                                         '<div class="packet-setting"><button class="btn btn-important close" id="packetSave">保存</button> <button class="btn btn-important close">取消</button></div>' +
@@ -729,7 +729,7 @@
                         
                         $('#packetSave').off('click').on('click',function(e){
                             var _loc = 'http://'+location.host+location.pathname;
-                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;max-width:100%"><a href="#nolink" id="grabBonus"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
+                            $txt.append('<div id="'+dragId+'" class="appendDragBox locationGrabBonus" title="外边框生成页面后自动删除" style="width:414px;max-width:100%"><a href="#nolink" class="grabBonus"><img src="'+_loc+'static/images/packet_big_'+tmpId+'_1.png"></a><div id="'+scaleId+'" class="JScaleBox"></div></div>'); //a内的结构不能变
                             $('#'+dragId).find('img').attr('ondragstart','return false');
                             jDrag('#'+dragId, '#'+scaleId, true);
                             packetSetting.totalMoney= $('#totalMoney').val();
