@@ -103,7 +103,7 @@ function poster(response, request){
                             var packetTplId = data.substring(_subStart+24,_subStart+25); //获取模板 id
                             if(parseInt(packetTplId)>0){
                                 console.log("packet:create grapbonus page now");
-                                var newData= data.replace('<a href="#nolink" class="grabBonus">','<div class="show-ajax-data"><span class="data-get"></span><span class="data-share"></span><a href="#nolink" class="show-detail"></a>')
+                                var newData= data.replace(/<a href="#nolink" class="grabBonus".{0,15}>/,'<div class="show-ajax-data"><span class="data-get"></span><span class="data-share"></span><a href="#nolink" class="show-detail"></a>')
                                                  .replace('images/packet_big_'+packetTplId+'_1.png" ondragstart="return false"></a>','images/packet_big_'+packetTplId+'_2.png" ondragstart="return false"></div>')
                                                  .replace('<body>','<link type="text/css" href="../../../../static/css/grabBonus.css" rel="stylesheet"><body class="tpl_'+packetTplId+'">')
                                                  .replace('</body>','<script type="text/javascript" src="../../../../static/js/jquery-1.10.2.min.js"></script><script>$(function(){console.log("start ajax get hongbao");})</script>');
