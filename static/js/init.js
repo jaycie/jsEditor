@@ -79,6 +79,13 @@ $(function(){
 		$.drag(true);
 	});
 
+	$('#returnPrevPage').on('click',function(){
+		var url = _diy ? "http://www.yjsvip.com/member/tuiguang/hunhe/getHunheListByBuildId" : "http://www.yjsvip.com/member/tuiguang/haibao/getHaiBaoListByBuildId";
+		// if(confirm("返回将清空现有操作记录，确定返回？")){
+			window.location.href = url;
+		// }
+		
+	});
 	$('#createPageNow').on('click',function(){
 		var cPConfig={
 			// url:　$dragBox.css('backgroundImage').replace('url(\"','').replace('\")',''),
