@@ -667,7 +667,7 @@
                         };
                     $.ajax({
                         url: $('#newActUrl').val(),
-                        data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':JSON.stringify($('#newActValue').val())},
+                        data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':escape(escape(JSON.stringify($('#newActValue').val())))},
                         dataType: 'jsonp',
                         success: function(data){
                             console.log('send form success');
