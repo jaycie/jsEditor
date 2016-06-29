@@ -112,7 +112,7 @@ $(function(){
 		var ajaxUrl = $('#postActUrl').val(); //有表单数据
 		if(ajaxUrl){
 			_js +='<script src="'+siteConfig.url.editor+'/static/js/jquery-1.10.2.min.js"></script>' +
-				  '<script>$(function(){$("#submitSave").on("click",function(){var cls="btn-important";if($(this).hasClass(cls)){$(this).removeClass(cls);var _len=$("#newActForm input").length-1,_info="";for(var i=0;i<_len;i++){_info+=$($("#newActForm input")[i]).prop("name")+":"+$($("#newActForm input")[i]).val()+","}_info=_info.substr(0,_info.length-1);$.getJSON($("#postActUrl").val()+"?pInfo={lId:"+editConfig.pInfo.lId+",aId:"+editConfig.pInfo.aId+",tId:"+editConfig.pInfo.tId+"}&fInfo={"+_info+"}&callback=?",function(data){if(data.status===1){alert("提交成功")}})}else{alert("你已提交,无需重复提交")}})})</script>';
+				  '<script>$(function(){$("#submitSave").on("click",function(){var cls="btn-important";if($(this).hasClass(cls)){$(this).removeClass(cls);var _len=$("#newActForm input").length-1,_info="";for(var i=0;i<_len;i++){_info+=$($("#newActForm input")[i]).prop("name")+":\'"+$($("#newActForm input")[i]).val()+"\',"}_info=_info.substr(0,_info.length-1);$.getJSON($("#postActUrl").val()+"?pInfo={lId:"+editConfig.pInfo.lId+",aId:"+editConfig.pInfo.aId+",tId:"+editConfig.pInfo.tId+"}&fInfo={"+_info+"}&callback=?",function(data){if(data.status===1){alert("提交成功")}})}else{alert("你已提交,无需重复提交")}})})</script>';
 			$.getJSON($('#newActUrl').val()+'?pInfo={"lId":'+lId+',"aId":'+aId+',"tId":'+tId+'}&fInfo='+$('#newActValue').val()+'&callback=?',
 				function(data){
 					console.log(data);
