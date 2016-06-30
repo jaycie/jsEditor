@@ -661,19 +661,25 @@
                     _submitVal = _submitVal.substr(0,_submitVal.length-1);
                     $('#newActValue').val(_submitVal+']');
                     var _pInfo = {
-                            'lId':parseInt(getUrl('lId')), 
-                            'aId':parseInt(getUrl('aId')), 
-                            'tId':parseInt(getUrl('tId'))
+                            lId:parseInt(getUrl('lId')), 
+                            aId:parseInt(getUrl('aId')), 
+                            tId:parseInt(getUrl('tId'))
                         };
                     $.ajax({
                         url: $('#newActUrl').val(),
-                        data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':escape(escape(JSON.stringify($('#newActValue').val())))},
+                        // data: {'pInfo':JSON.stringify(_pInfo), 'fInfo':escape(escape(JSON.stringify($('#newActValue').val())))},
+                        data: {'pInfo':"{lId:" + parseInt(getUrl('lId')) + ",aId:" + parseInt(getUrl('aId')) + ",tId:" + parseInt(getUrl('tId')) + "}", 'fInfo':escape(escape($('#newActValue').val()))},
                         dataType: 'jsonp',
                         success: function(data){
                             console.log('send form success');
+                            if(data.status===1){
+                                commonCommand(e, 'insertHTML', _form, callback);
+                            }else{
+                                alert('请先登录');
+                            }
                         }
                     })
-                    commonCommand(e, 'insertHTML', _form, callback);
+                    
                 });
 
                 return $modal;
