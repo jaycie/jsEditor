@@ -10,6 +10,7 @@ $(function(){
 
 		diy= getUrl('diy'),
 		_diy='',
+		_diyDir='',
 		_action,
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
@@ -17,6 +18,7 @@ $(function(){
 
 	if(diy==='true'){
 		_diy='&diy='+diy;
+		_diyDir='diy/';
 	}
 	_action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
 
@@ -30,11 +32,12 @@ $(function(){
 			return;
 		}else{
 			$('#createPage').prop('action',_action);
-			
+			//编辑历史文件
 			if(edit){
-				$('#JDragBox').before('<iframe src="poster/'+lId+'/'+aId+'/'+tId+'.html" style="display:none" name="poster" id="poster"></iframe>');
+				$('#JDragBox').before('<iframe src="poster/'+_diyDir+lId+'/'+aId+'/'+tId+'.html" style="display:none" name="poster" id="poster"></iframe>');
 				$('#poster').load(function(){
-					var _config = window.frames["poster"].editConfig;
+					var _iframe = window.frames["poster"],
+						_config = _iframe.editConfig;
 					$dragBox.css({
 						'left' : _config.left,
 						'top' : _config.top,
@@ -42,6 +45,11 @@ $(function(){
 						'height' : _config.height,
 						'backgroundImage': 'url('+_config.url+')'
 					});
+
+					if(_config.packetSetting){
+						window.packetSetting=_config.packetSetting;
+					}
+					$(".textarea").html($("#poster").contents().find("#create_wrap").html()); //获取生成内容
 					$(window.parent.document).find('.insertImageBox').hide();
 					$(window.parent.document).find('.mask').hide();
 					$.drag(false);
@@ -54,9 +62,9 @@ $(function(){
 
 	function _drag(){  //拖拽相关
 		var url=getUrl('imgUrl');
-		if($dragBox.css('backgroundImage')==='none' && !url){
+		if($dragBox.css('backgroundImage')==='none' && !url && !getUrl('edit')){
 			$.post(_action+'&newBlank=true',{pageContent:''},function(){ //生成空白页面，防止404
-			    console.log('try to create a new blank page');
+			    console.log('create a new blank page success');
 		  	});
 			alert('请先上传背景图');
 			$('.insertImage').trigger('click');
@@ -105,7 +113,8 @@ $(function(){
 				$('#exportCss').text()+'</style>' +
 				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
-			   	$('.textarea').html();
+			   	// $('.textarea').html(); //用容器包裹生成的内容，便于获取
+			   	'<div id="create_wrap">'+$(".textarea").html()+'</div>';
 			_js = '<script>var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};'+ 
 				  'function getUrl(param){var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)"),r = window.location.search.substr(1).match(reg);if(r!=null)return  unescape(r[2]); return null;}function insertScript(src,callback){var oHead = document.getElementsByTagName("HEAD").item(0),oScript= document.createElement("script");oScript.type = "text/javascript";oScript.src=src;oHead.appendChild( oScript);if(callback){oScript.onload=function(){callback()}}}if(getUrl("qrcode")){insertScript("http://www.yjsvip.com/member/publicStatic/h5ds/scripts/library/jquery-2.0.0.min.js",function(){var _b=$("body").height(),_bg=$(".drag-bg").height();if(_b<_bg){$("body").height(_bg)}insertScript("http://www.yjsvip.com/member/js/jquery.qrcode.min.js",function(){$("body").append(\'<div class="qrcode"><div id="qrcode-img" class="qrcode-img"></div><div class="qrcode-text"><p>长按识别二维码</p><p>查看楼盘详情</p></div></div>\');_url=getUrl("qrcodeText")||"http://www.yjsvip.com/";$("#qrcode-img").qrcode({width:150,height:150,text:_url});})});}</script>';
 		
@@ -119,7 +128,8 @@ $(function(){
 				}
 			);
 		}
-		if(packetSetting && packetSetting.totalMoney>0){ //红包数据
+
+		if(packetSetting && packetSetting.totalMoney>0 && $(".locationGrabBonus").length>0){ //红包数据
 			_js +='<script src="'+siteConfig.url.editor+'/static/js/jquery-1.10.2.min.js"></script>' +
 				  '<script>$(function(){if(location.href.indexOf("grabBonus.html")>0){function getUrl(param){var reg=new RegExp("(^|&)"+param+"=([^&]*)(&|$)");var r=window.location.search.substr(1).match(reg);if(r!=null)return unescape(r[2]);return null}var fontScale = $(".locationGrabBonus").width()/$(window).width();$(".locationGrabBonus .data-get").css({Transform:"scale("+fontScale+")",TransformOriginX:"right",TransformOriginY:"top"}).html(getUrl("hongbao"));$(".locationGrabBonus .data-share").css({Transform:"scale("+fontScale+")",TransformOriginX:"right",TransformOriginY:"top"}).html(getUrl("leftHongbaoPoint"))}else{$(".grabBonus").on("click",function(){var iframeD=$("#testIframe",parent.document),hongbaoId=iframeD.data("hongbaoid"),hongbaoKey=iframeD.data("hongbaokey");function _openHongbao(id,key){var _id=id||hongbaoId,_key=key||hongbaoKey;$.getJSON(editConfig.packetSetting.openUrl+"?token="+iframeD.data("token")+"&hongbaoId="+_id+"&hongbaoKey="+_key+"&callback=?",function(data){if(data.hongBao.hasPlayed===true){alert("红包已领过")}else if(data.hongBao.hasHonghao===false){alert("红包已领完")}else{window.parent.postMessage("{hongbaoId:"+_id+",hongbaoKey:\'"+_key+"\'}","*");window.location.href="grabBonus.html?hongbao="+data.hongBao.hongbao/100+"&leftHongbaoPoint="+data.hongBao.leftHongbaoPoint/100}})}if(hongbaoId&&hongbaoKey){_openHongbao()}else{$.getJSON(editConfig.packetSetting.getUrl+"?token="+iframeD.data("token")+"&activeId="+editConfig.pInfo.aId+"&callback=?",function(data){if(data.status==="success"){_openHongbao(data.hongbaoInfo.hongbaoId,data.hongbaoInfo.hongbaoKey)}else if(data.code=="2102"){alert("红包已领过")}else if(data.code=="2101"){alert("红包已领完")}})}})}})</script>';
 			$.getJSON($('#newActPacket').val()+'?pInfo={"lId":'+lId+',"aId":'+aId+',"tId":'+tId+'}&fInfo={"tId": '+packetSetting.tplId+', "totalMoney":'+packetSetting.totalMoney+', "totalPoint":'+packetSetting.totalPoint+',"totalOnly":'+packetSetting.totalOnly+'}&callback=?',
