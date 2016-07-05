@@ -85,11 +85,11 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 	
 <script type="text/javascript" src="static/js/jquery-1.10.2.min.js" ></script>
 <script>
-	var host = location.protocol+'//'+location.hostname;
+	var host = location.protocol+'//'+location.hostname+'/';
 	window.siteConfig= { //处理图片 文件上传等动态服务器路径
 		debug : false,  //上线设置为false
 		url : { 
-      		base: host+'/node/', //node 处理服务器,nodejs port为8888 可设置ngnix or apache转发，若没设置，请用8888端口号
+      		base: host+'node/', //node 处理服务器,nodejs port为8888 可设置ngnix or apache转发，若没设置，请用8888端口号
 			upload: 'upload',    //上传图片
 			show: 'uploadImg',   //显示图片
 			poster: 'poster',  //生成静态文件
