@@ -41,10 +41,11 @@ function upload(response, request) {
         fs.renameSync(files.upload.path, './upload/'+fileName); 
    
         response.writeHead(302, {
-          'Location': _refer+'&imgUrl=' + fileName
+          'Location': _refer+'&imgUrl=' + fileName + '&picUserd='+ fields.picUserd + '&insertPicId=' +fields.insertPicId
         });
+        // console.log(util.inspect({fields: fields, files: files}));
+
         response.end();
-        
     });
 }
 

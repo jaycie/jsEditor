@@ -61,7 +61,9 @@ $(function(){
 	}());
 
 	function _drag(){  //拖拽相关
-		var url=getUrl('imgUrl');
+		var url=getUrl('imgUrl'),
+			picUserd = parseInt(getUrl('picUserd')),
+			insertPicId = getUrl('insertPicId');
 		if($dragBox.css('backgroundImage')==='none' && !url && !getUrl('edit')){
 			$.post(_action+'&newBlank=true',{pageContent:''},function(){ //生成空白页面，防止404
 			    console.log('create a new blank page success');
@@ -69,12 +71,19 @@ $(function(){
 			alert('请先上传背景图');
 			$('.insertImage').trigger('click');
 		}else{
-			// var imgUrl = siteConfig.url.base+siteConfig.url.show+'?imgUrl='+getUrl('imgUrl');  //不走node
-			var imgUrl = siteConfig.url.editor+'node/upload/'+getUrl('imgUrl');
-			//ctrl iframe parent dom
+			var imgUrl = siteConfig.url.editor+'node/upload/'+url;
+			if(picUserd===1){
+				$(window.parent.document).find('#JDragBox').css('backgroundImage','url('+imgUrl+')');
+			}else{
+				console.log('as small pic');
+				var triggerDom_str = insertPicId.substr(0,insertPicId.indexOf('__')+2),
+					triggerDom_num = parseInt(insertPicId.substr(insertPicId.indexOf('__')+2))+1,
+					triggerDom=triggerDom_str+triggerDom_num;
+				$(window.parent.document).find('#'+insertPicId).val(imgUrl);
+				$(window.parent.document).find('#'+triggerDom).trigger('click');
+			}
 			$(window.parent.document).find('.insertImageBox').hide();
-			$(window.parent.document).find('.mask').hide();
-			$(window.parent.document).find('#JDragBox').css('backgroundImage','url('+imgUrl+')');
+			$(window.parent.document).find('.mask').hide();	
 		}
 		$.drag(true);
 	};

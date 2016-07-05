@@ -14,7 +14,7 @@
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
         $form = {
             action : {
-                base : 'http://10.0.0.120/',  //表单&&红包 公用处理服务器
+                base : (function(){ return siteConfig.debug ? 'http://10.0.0.120/' : host}()),  //表单&&红包 公用处理服务器
                 newActForm : 'member/newActForm',  //提交表单所需自断
                 postActForm : 'member/postActForm', //发送表单数据
                 newActPacket : 'member/newActPacket' //保存红包配置信息
@@ -549,9 +549,10 @@
             
                     $modal = $(
                         '<div><form action="'+siteConfig.url.base+siteConfig.url.upload+'" method="POST" enctype="multipart/form-data" target="upload">' +
+                        '   <div style="padding-left:15px;margin:5px 0;">背景图:<input type="radio" name="picUserd" value="1" checked /> <span style="padding-left:50px;">插入到页面:<input type="radio" name="picUserd" value="2" /></span> <input type="hidden" name="insertPicId" value="'+urlTxtId+'" /></div>' +
                         '   <table><tr><td>本地:</td><td><input type="file" name="upload" multiple="multiple" id="' + urlTxtIdNative + '"><input type="text" name="tmpurl" value="'+siteConfig.url.editor+'tmp.html" style="display:none" /></td>' +
                         '   <td><input type="submit" value="上传" id="' + btnIdNative + '" /></td></tr> ' +
-                        '   <tr><td>网络:</td><td> <input id="' + urlTxtId + '" type="text" style="width:230px;" placeholder="请输入图片链接"/></td>' + 
+                        '   <tr><td>网络:</td><td> <input id="' + urlTxtId + '" type="text" style="width:255px;" placeholder="请输入图片链接"/></td>' + 
                         '   <td><button id="' + btnId + '" type="button">插入</button></td></tr></table>' + 
                         '<iframe name="upload" style="display:none"></iframe></div>'
                     ),
@@ -567,16 +568,25 @@
                             }
                         })                 
                     };
-                $modal.find('#' + btnId).click(function(e){
-                    var url = $.trim($modal.find('#' + urlTxtId).val());
-                    if(!url){
-                        url = document.getElementById(urlTxtId).value;
-                    }
-                    if(url !== ''){
-                        url+='?id='+id;
-                        _imgSrc=url;
-                        commonCommand(e, 'insertImage', url, callback, true);
-                    }
+
+                $modal.find('#' + btnId).on('click', function(e){
+                    var url = $.trim($modal.find('#' + urlTxtId).val()),
+                        picUserd = parseInt($('input[name="picUserd"]:checked').val());
+
+                    if(picUserd===2){
+                        if(!url){
+                            url = document.getElementById(urlTxtId).value;
+                        }
+                        if(url !== ''){
+                            url+='?id='+id;
+                            _imgSrc=url;
+                            commonCommand(e, 'insertImage', url, callback, true);
+                        }
+                    }else{
+                        $('#JDragBox').css('backgroundImage','url('+url+')');
+                        $('.insertImageBox').hide();
+                        $('.mask').hide();
+                    }    
                 });
 
                 //异步上传图片
