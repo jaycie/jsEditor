@@ -81,10 +81,15 @@ function uploadImg(response,request) {
 
 function poster(response, request){
     console.log("now poster");
+    // response.writeHead(200, {"X-XSS-Protection": 0});
     var arg=url.parse(request.url, true).query,
-        _path= arg.diy ? '../poster/diy/'+arg.lId +'/'+arg.aId : '../poster/'+arg.lId +'/'+arg.aId,
+        __path= arg.diy ? 'poster/diy/'+arg.lId +'/'+arg.aId : 'poster/'+arg.lId +'/'+arg.aId,
+        _path = '../'+__path,
         pageName=_path+'/'+arg.tId+'.html',
+        __pageName=__path+'/'+arg.tId+'.html',
         bonusName=_path+'/'+'grabBonus.html',
+        _refer = request.headers.referer,  
+        refer = _refer.substring(0,_refer.indexOf('?')),
         d='';
 
     if(request.url!=="/favicon.ico"){
@@ -114,9 +119,15 @@ function poster(response, request){
                     }      
                 })
             });
+            
         });
+
         request.on("end",function(){
             console.log('form receive data success');
+            response.writeHead(302, {
+                'Location': refer+__pageName
+            });
+            response.end();
         });
     }
 
@@ -149,6 +160,7 @@ function poster(response, request){
             fs.write(fd,writeBuffer,bufferPosition,bufferLength,filePosition,function wrote(err, written) {
                 if (err) { throw err; }
                 console.log('wrote ' + written + ' bytes');
+               
                 response.writeHead(200, {"Content-Type": "text/html"});
                 fs.readFile(file,function (err,bufferData){
                     response.end(bufferData);

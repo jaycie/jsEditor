@@ -21,6 +21,16 @@
 
 			callback.call(this, e, posix);
 		}
+	}).on('click', function(e){
+		// $.extend(document, {'move': false});
+		var prarentDom = $(e.target).parent();
+		if(prarentDom.is('.appendDragBox')){
+			prarentDom.css({'cursor':'auto'});
+			$(dragDiv).off('mousedown').off('mousedown', scaleDiv);
+		}else{
+			prarentDom.css({'cursor':'move'});
+			domMove();
+		}
 	}).mouseup(function(e) {
 		if (!!this.move) {
 			var callback = document.call_up || function(){};
@@ -34,34 +44,36 @@
 		}
 	});
 
-	var $box = $(dragDiv).on('mousedown',function(e) {
-	    var offset = $(this).offset();
-	    
-	    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
-	    $.extend(document, {'move': true, 'move_target': this});
-	}).on('mousedown', scaleDiv, function(e) {
-	    var posix = {
-	            'w': $box.width(), 
-	            'h': $box.height(), 
-	            'x': e.pageX, 
-	            'y': e.pageY
-	        };
-	    
-	    $.extend(document, {'move': true, 'call_down': function(e) {
-	    	var _width = Math.max(30, e.pageX - posix.x + posix.w),
-	    		_height = Math.max(30, e.pageY - posix.y + posix.h);
-	    	if(_height>736){
-	    		$('.textarea').css('height', _height);
-	    	}else {
-	    		$('.textarea').css('height','736');
-	    	}
-	        $box.css({
-	            'width': _width>412 ? 412 : _width,
-	            'height': _height
-	        });
-	    }});
-	    return false;
-	});
+	var domMove = function(){
+		var $box = $(dragDiv).on('mousedown',function(e) {
+		    var offset = $(this).offset();
+		    
+		    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
+		    $.extend(document, {'move': true, 'move_target': this});
+		}).on('mousedown', scaleDiv, function(e) {
+		    var posix = {
+		            'w': $box.width(), 
+		            'h': $box.height(), 
+		            'x': e.pageX, 
+		            'y': e.pageY
+		        };
+		    
+		    $.extend(document, {'move': true, 'call_down': function(e) {
+		    	var _width = Math.max(30, e.pageX - posix.x + posix.w),
+		    		_height = Math.max(30, e.pageY - posix.y + posix.h);
+		    	if(_height>736){
+		    		$('.textarea').css('height', _height);
+		    	}else {
+		    		$('.textarea').css('height','736');
+		    	}
+		        $box.css({
+		            'width': _width>412 ? 412 : _width,
+		            'height': _height
+		        });
+		    }});
+		    return false;
+		});
+	};domMove();
  }
 
 $(function(){
