@@ -28,7 +28,7 @@
 			prarentDom.css({'cursor':'auto'});
 			$(dragDiv).off('mousedown').off('mousedown', scaleDiv);
 		}else{
-			prarentDom.css({'cursor':'move'});
+			$(dragDiv).css({'cursor':'move'});
 			domMove();
 		}
 	}).mouseup(function(e) {
