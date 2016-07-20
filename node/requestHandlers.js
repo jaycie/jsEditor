@@ -33,7 +33,7 @@ function upload(response, request) {
         var types= files.upload.name.split('.'),
             suffix= String(types[types.length-1]),
             _fileName = new Date().getTime() +"_"+ parseInt(Math.random()*1000),
-            _refer = request.headers.referer,  
+            _refer = request.headers.referer.replace('&edit=true', ''),  
             refer = _refer.substring(0,_refer.indexOf('?')); 
 
         fileName=_fileName+'.'+suffix;

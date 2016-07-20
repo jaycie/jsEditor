@@ -583,8 +583,8 @@
                         $modal.find('#' + urlTxtId).val('');
                         _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
                             if($(this).attr('src')===_imgSrc){
-                                $(this).before('<div id="'+dragId+'" class="appendDragBox"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="'+scaleId+'" class="JScaleBox"></div></div>').remove();
-                                jDrag('#'+dragId, '#'+scaleId, true);
+                                $(this).before('<div id="" class="appendDragBox '+dragId+'"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="" class="JScaleBox '+scaleId+'"></div></div>').remove();
+                                jDrag('.'+dragId, '.'+scaleId, true);
                             }
                         })                 
                     };
@@ -902,12 +902,13 @@
                     $btn.attr('commandName', command);
                     $(document).on('click.getColor', '.fore-color-container .sp-choose', function(e){
                         if(command === 'foreColor'){
-                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor')); 
+                            // console.log($btn.find('.sp-preview-inner').css('backgroundColor'));
+                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor'), '', true); 
                         }
                     });
                     $(document).on('click.getColor', '.back-color-container .sp-choose', function(e){
                         if(command === 'backColor'){
-                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor')); 
+                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor'), '', true); 
                         }
                     });
                 }
@@ -1061,7 +1062,7 @@
         $(".fore-color").spectrum({
             preferredFormat: "rgb",
             color: "#000",
-            // showInput: true,
+            showInput: true,
             containerClassName: 'fore-color-container',
             showPalette: true,
             palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]
@@ -1069,7 +1070,7 @@
         $(".back-color").spectrum({
             preferredFormat: "rgb",
             color: "#fff",
-            // showInput: true,
+            showInput: true,
             containerClassName: 'back-color-container',
             showPalette: true,
             palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]

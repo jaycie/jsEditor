@@ -43,8 +43,8 @@
         localStorageKey: false,
         appendTo: "body",
         maxSelectionSize: 7,
-        cancelText: "cancel",
-        chooseText: "choose",
+        cancelText: "取消",
+        chooseText: "确认",
         togglePaletteMoreText: "more",
         togglePaletteLessText: "less",
         clearText: "Clear Color Selection",
@@ -321,7 +321,7 @@
             }
 
             // Prevent clicks from bubbling up to document.  This would cause it to be hidden.
-            // container.click(function(e){e.stopPropagation();});
+            // container.click(stopPropagation());
 
             // Handle user typed input
             textInput.change(setFromTextInput);
@@ -329,6 +329,10 @@
                 setTimeout(setFromTextInput, 1);
             });
             textInput.keydown(function (e) { if (e.keyCode == 13) { setFromTextInput(); } });
+            textInput.bind("click", function(e){
+                e.stopPropagation();
+                // console.log(container);
+            })
 
             cancelButton.text(opts.cancelText);
             cancelButton.bind("click.spectrum", function (e) {
