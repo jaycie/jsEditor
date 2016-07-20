@@ -2,9 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<meta name="renderer" content="webkit" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand" />
 <title>1家说活动海报生成器</title>
 <link rel="stylesheet" type="text/css" href="static/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="static/css/spectrum.css">
 
 <style id="exportCss">   
 input{border: 1px solid #b8b8b8}
@@ -74,7 +75,8 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 	<div class="create-page">
 		<form action="#" method="post" target="_blank" id="createPage">
 			<textarea name="pageContent" class="hide" id="pageContent"></textarea>
-			<input type="submit" value="生成" class="btn btn-important" id="createPageNow">
+			<input type="button" class="btn btn-important" id="savePageNow" value="保存">
+			<input type="submit" value="发布" class="btn btn-important" id="createPageNow">
 			<input type="button" class="btn btn-important" id="returnPrevPage" value="返回">
 		</form>
 
@@ -89,7 +91,7 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 <script>
 	var host = location.protocol+'//'+location.hostname+'/';
 	window.siteConfig= { //处理图片 文件上传等动态服务器路径
-		debug : false,  //上线设置为false
+		debug : true,  //上线设置为false
 		url : { 
       		base: host+'node/', //node 处理服务器,nodejs port为8888 可设置ngnix or apache转发，若没设置，请用8888端口号
 			upload: 'upload',    //上传图片
@@ -100,6 +102,7 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 	}
 
 </script>
+<script type="text/javascript" src="static/js/spectrum.min.js"></script>
 <script type="text/javascript" src='static/js/editor.js'></script>
 <script type="text/javascript" src='static/js/drag.js'></script>
 <script type="text/javascript" src="static/js/init.js"></script>

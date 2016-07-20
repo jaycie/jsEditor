@@ -68,12 +68,18 @@ $(function(){
 			$.post(_action+'&newBlank=true',{pageContent:''},function(){ //生成空白页面，防止404
 			    console.log('create a new blank page success');
 		  	});
-			alert('请先上传背景图');
-			$('.insertImage').trigger('click');
+			// alert('请先上传背景图');
+			// $('.insertImage').trigger('click');
+			// $dragBox.find(".toolTip").trigger("click");
 		}else{
 			var imgUrl = siteConfig.url.editor+'node/upload/'+url;
 			if(picUserd===1){
 				$(window.parent.document).find('#JDragBox').css('backgroundImage','url('+imgUrl+')');
+				//自动保存背景
+				$(window.parent.document).find('.textarea').addClass('editorEnble');
+				$(window.parent.document).find("#JEditor .btn-redo").removeClass('hide'); 
+				$(window.parent.document).find('#JScaleBox').addClass('hide');
+
 			}else{
 				console.log('as small pic');
 				var triggerDom_str = insertPicId.substr(0,insertPicId.indexOf('__')+2),
@@ -85,7 +91,7 @@ $(function(){
 			$(window.parent.document).find('.insertImageBox').hide();
 			$(window.parent.document).find('.mask').hide();	
 		}
-		$.drag(true);
+		$.drag(false);
 	};
 
 	$dragBox.on("click",'.toolTip',function(e){
@@ -94,6 +100,9 @@ $(function(){
 
 	$("#JEditor").on("click",'.btn-redo',function(){
 		$.drag(true);
+		if($("#JDragBox").css("backgroundImage")==="none"){
+			$('.insertImage').trigger('click');
+		}
 	});
 
 	$('#returnPrevPage').on('click',function(){
@@ -103,7 +112,8 @@ $(function(){
 		// }
 		
 	});
-	$('#createPageNow').on('click',function(){
+
+	function createPage(){
 		var cPConfig={
 			// url:　$dragBox.css('backgroundImage').replace('url(\"','').replace('\")',''),
 			url:　$dragBox.css('backgroundImage').replace('url(','').replace(')','').replace(/\'/g,'').replace(/\"/g,''),  //debug 360 browser
@@ -149,5 +159,24 @@ $(function(){
 		}
 		_html += _js+'</body></html>';
 		$('#pageContent').val(encodeURIComponent(_html));
+	}
+
+	//生成页面
+	$('#createPageNow').on('click',function(){
+		createPage();
+	});
+	//保存页面
+	$('#savePageNow').on('click',function(){
+		createPage();
+		$.ajax({
+            url: $("#createPage").attr("action"),
+            type: 'POST',
+            data: {'pageContent':$('#pageContent').val()},
+            success: function(data){
+            	if(data){
+            		alert("保存成功");
+            	}
+            }
+		});
 	});
 });

@@ -285,7 +285,7 @@
                 return $ul; 
             })()
         },
-        /* 该版本暂时去除字体，不大明显 意义不大
+
         {
             'title': '字体',
             'type': 'dropMenu',
@@ -307,7 +307,7 @@
                 return $ul; 
             })()
         },
-        */
+        
         'split',
     	{
             'title': '加粗',
@@ -331,6 +331,25 @@
             'command': 'italic '
         },
         'split',
+        {
+            'title': '文字色',
+            'type': 'getColor',
+            'txt': 'fore-color',
+            'command': 'foreColor',
+            'callback': (function(){
+                // console.log('a');
+            }())
+        },
+        {
+            'title': '背景色',
+            'type': 'getColor',
+            'txt': 'back-color',
+            'command': 'backColor',
+            'callback': (function(){
+                // console.log('b');
+            }())
+        },
+        /*
         {
             'title': '前景色',
             'type': 'dropMenu',
@@ -375,6 +394,7 @@
                 return $ul; 
             })()
         },
+        */
         'split',
         {
             'title': '无序列表',
@@ -540,7 +560,7 @@
             'txt': 'fa fa-image',
             'class': 'btn-lg insertImage',
             'appendClass': 'modal-small insertImageBox',
-            'modal': (function () {
+            'modal': (function () {//ID可能被意外串改，这里改为class
                 var urlTxtIdNative = getUniqeId(),
                     btnIdNative = getUniqeId(),
                     urlTxtId = getUniqeId(),
@@ -835,12 +855,17 @@
             }
 
             //btn txt
-            if(txt.indexOf('|') !== -1){
-                txtArr = txt.split('|');
-                txt = '<i class="' + txtArr[0] + '" style="' + txtArr[1] + '"></i>';
+            if(type !== 'getColor'){
+                if(txt.indexOf('|') !== -1){
+                    txtArr = txt.split('|');
+                    txt = '<i class="' + txtArr[0] + '" style="' + txtArr[1] + '"></i>';
+                }else{
+                    txt = '<i class="' + txt + '"></i>';
+                }
             }else{
-                txt = '<i class="' + txt + '"></i>';
+                txt = '<input type="text" class="' + txt + '" />';
             }
+                
             $btn.html(txt);
 
             //btn title
@@ -867,6 +892,23 @@
                 if(typeof command === 'function'){
                     $btn.click(function(e){
                         command(e);  //如果command是函数，则直接执行command
+                    });
+                }
+            }
+            //取色器
+            else if(type === 'getColor'){
+                $btn.addClass('btn-nohover');
+                if(typeof command === 'string'){
+                    $btn.attr('commandName', command);
+                    $(document).on('click.getColor', '.fore-color-container .sp-choose', function(e){
+                        if(command === 'foreColor'){
+                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor')); 
+                        }
+                    });
+                    $(document).on('click.getColor', '.back-color-container .sp-choose', function(e){
+                        if(command === 'backColor'){
+                            commonCommand(e, command, $btn.find('.sp-preview-inner').css('backgroundColor')); 
+                        }
                     });
                 }
             }
@@ -1015,6 +1057,23 @@
     		.append($txt);
 
     	$txt.html(initContent);
+        //取色，前景色
+        $(".fore-color").spectrum({
+            preferredFormat: "rgb",
+            color: "#000",
+            // showInput: true,
+            containerClassName: 'fore-color-container',
+            showPalette: true,
+            palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]
+        });
+        $(".back-color").spectrum({
+            preferredFormat: "rgb",
+            color: "#fff",
+            // showInput: true,
+            containerClassName: 'back-color-container',
+            showPalette: true,
+            palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]
+        });
 
     	return $txt;
     };

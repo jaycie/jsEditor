@@ -87,7 +87,6 @@ $(function(){
 				$('#JScaleBox').removeClass('hide');
 			}else{
 				$('.textarea').addClass('editorEnble');  //内容成可编辑
-
 				$("#JEditor .btn-redo").removeClass('hide');  //上传完成，第一版不做可编辑
 				$('#JScaleBox').addClass('hide');
 			}

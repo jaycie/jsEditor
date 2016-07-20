@@ -1,7 +1,7 @@
 .JEditor div[contenteditable=true]:focus { 
     outline: none; 
 }
-.JEditor{background:url(../images/iphone6s.jpg) center 88px no-repeat;height: 1050px;margin-bottom: 50px;}
+.JEditor{background:url(../images/iphone6s.jpg?v=1) center 88px no-repeat;height: 1050px;margin-bottom: 50px;}
 
 .JEditor .btn-container{
     padding:30px 3px 0px 3px;
@@ -126,6 +126,7 @@
     color: #505050;
 }
 
+.btn-nohover:hover{background-color: transparent;border-radius: 0;}
 .btn-default{
     color: #505050;
 }
