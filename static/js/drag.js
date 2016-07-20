@@ -1,6 +1,9 @@
 /**
  * author jaycie
  * Email: xiezhanggen@gmail.com
+ * param: @ dragDiv 拖动容器 jquery selector
+ *        @ scaleDiv 拉伸容器
+ *        @ inEditContent 计算基点，false为基于0，0 原点，true为输入框
  */
  var jDrag = function(dragDiv, scaleDiv, inEditContent) {
  	var editContentDom = $('.textarea'),
@@ -10,15 +13,15 @@
  		};
 
  	$(document).mousemove(function(e) {
+ 		// console.log(e.pageY);
 		if (!!this.move && $(e.target).attr('class') !=='content') {  // &&不在点击保存按钮上
 			var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
 				callback = document.call_down || function() {
 					$(this.move_target).css({
-						'top': e.pageY - posix.y - _posix.y,
-						'left': e.pageX - posix.x - _posix.x
+						'marginTop': e.pageY - posix.y - _posix.y,
+						'marginLeft': e.pageX - posix.x - _posix.x
 					});
 				};
-
 			callback.call(this, e, posix);
 		}
 	}).on('click', function(e){
@@ -48,7 +51,7 @@
 		var $box = $(dragDiv).on('mousedown',function(e) {
 		    var offset = $(this).offset();
 		    
-		    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
+		    this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - _posix.y};
 		    $.extend(document, {'move': true, 'move_target': this});
 		}).on('mousedown', scaleDiv, function(e) {
 		    var posix = {

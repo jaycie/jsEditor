@@ -583,7 +583,7 @@
                         $modal.find('#' + urlTxtId).val('');
                         _imgSrc && $.each($txt.find('img'),function(i){ //图片可拖动
                             if($(this).attr('src')===_imgSrc){
-                                $(this).before('<div id="" class="appendDragBox '+dragId+'"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div id="" class="JScaleBox '+scaleId+'"></div></div>').remove();
+                                $(this).before('<div class="appendDragBox '+dragId+'"><img src="'+$($(this)[0]).prop('src')+'" ondragstart="return false;" /><div class="JScaleBox '+scaleId+'"></div></div>').remove();
                                 jDrag('.'+dragId, '.'+scaleId, true);
                             }
                         })                 
