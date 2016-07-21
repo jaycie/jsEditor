@@ -17,8 +17,10 @@
 		if (!!this.move && $(e.target).attr('class') !=='content') {  // &&不在点击保存按钮上
 			var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
 				callback = document.call_down || function() {
+					var _top = e.pageY - posix.y - _posix.y,
+						top = _top>0 ? _top : 0; //组织覆盖上面的内容
 					$(this.move_target).css({
-						'marginTop': e.pageY - posix.y - _posix.y,
+						'marginTop': top,
 						'marginLeft': e.pageX - posix.x - _posix.x
 					});
 				};
