@@ -10,7 +10,7 @@
 	    menus,  //存储菜单配置
 		currentRange,      //记录当前选中范围
         // $txt = $('<div contenteditable="true" class="textarea" id="enabledTextArea"></div>'),  //编辑区
-        $txt = $('<div contenteditable="true" class="textarea"></div>'),  //编辑区
+        $txt = $('<div class="JEditorContent"></div>'),  //编辑区
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
         $form = {
             action : {
@@ -1054,7 +1054,7 @@
             .append($dropMenuContainer)
             .append($modalContainer)
             .append($btnContainer)
-    		.append('<div class="toolTip btn-redo hide" data-next="edit"><div class="content">编辑背景</div><div class="footer"><i class="fa fa-caret-down"></i></div></div>')
+    		.append('<div class="toolTip btn-redo" data-next="edit"><div class="content">编辑背景</div><div class="footer"><i class="fa fa-caret-down"></i></div></div>')
     		.append($txt);
 
     	$txt.html(initContent);

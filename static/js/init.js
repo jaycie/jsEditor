@@ -12,15 +12,25 @@ $(function(){
 		_diy='',
 		_diyDir='',
 		_action,
+		tplId = getUrl('tplId'),
 		aId= getUrl('aId'),  //act id
 		lId= getUrl('lId'),  //loupan id
-		tId= getUrl('tId');  //template id;
+		tId= getUrl('tId'),
+		actionBase = siteConfig.url.base+siteConfig.url.poster;  //template id;
 
 	if(diy==='true'){
 		_diy='&diy='+diy;
 		_diyDir='diy/';
 	}
-	_action = siteConfig.url.base+siteConfig.url.poster+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
+	if(tplId){
+		if(aId && lId && tId){ //利用模版 编辑具体内容
+			_action = actionBase+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
+		}else{ //只编辑模版
+			_action = actionBase+'?tplId='+tplId+_diy;
+		}
+	}else{
+		_action = actionBase+'?lId='+lId+'&aId='+aId+'&tId='+tId+_diy;
+	}
 
 	(function getId(){
 		if(!diy || diy==='false'){ //非自定义编辑，即普通可视化编辑，不需要表单／红包，无需后端接口交互
@@ -28,13 +38,17 @@ $(function(){
 		}
 
 		var edit= getUrl('edit');
-		if(!aId || !lId || !tId){
+		if(!tplId && (!aId || !lId || !tId)){
 			return;
 		}else{
 			$('#createPage').prop('action',_action);
 			//编辑历史文件
 			if(edit){
-				$('#JDragBox').before('<iframe src="poster/'+_diyDir+lId+'/'+aId+'/'+tId+'.html" style="display:none" name="poster" id="poster"></iframe>');
+				var iframeSrc = _diyDir+lId+'/'+aId+'/'+tId+'.html';
+				if(tplId){
+					iframeSrc = 'tpl/'+tplId+'/index.html';
+				}
+				$('#JDragBox').before('<iframe src="poster/'+iframeSrc+'" style="display:none" name="poster" id="poster"></iframe>');
 				$('#poster').load(function(){
 					var _iframe = window.frames["poster"],
 						_config = _iframe.editConfig;
@@ -77,8 +91,9 @@ $(function(){
 				$(window.parent.document).find('#JDragBox').css('backgroundImage','url('+imgUrl+')');
 				//自动保存背景
 				$(window.parent.document).find('.textarea').addClass('editorEnble');
-				$(window.parent.document).find("#JEditor .btn-redo").removeClass('hide'); 
-				$(window.parent.document).find('#JScaleBox').addClass('hide');
+				bgCtrl('save', $(window.parent.document));
+				// $(window.parent.document).find("#JEditor .btn-redo").removeClass('hide'); 
+				// $(window.parent.document).find('#JScaleBox').addClass('hide');
 
 			}else{
 				console.log('as small pic');
@@ -94,15 +109,26 @@ $(function(){
 		$.drag(false);
 	};
 
-	$dragBox.on("click",'.toolTip',function(e){
-		$.drag(false);
-	});
+	// $dragBox.on("click",'.toolTip',function(e){
+	// 	$.drag(false);
+	// });
 
 	$("#JEditor").on("click",'.btn-redo',function(){
-		$.drag(true);
-		if($("#JDragBox").css("backgroundImage")==="none"){
-			$('.insertImage').trigger('click');
+		var $this = $(this),
+			next = $this.data("next");
+		if(next === 'edit'){
+			$.drag(true);
+			if($("#JDragBox").css("backgroundImage")==="none"){
+				$('.insertImage').trigger('click');
+			}
+			// $this.data("next","save").find(".content").html("保存背景");
+			bgCtrl('edit');
+		}else{
+			$.drag(false);
+			// $this.data("next","edit").find(".content").html("编辑背景");
+			bgCtrl('save');
 		}
+		
 	});
 
 	$('#returnPrevPage').on('click',function(){
@@ -132,7 +158,6 @@ $(function(){
 				$('#exportCss').text()+'</style>' +
 				'<body><div class="drag-bg"></div>' +
 			   	// $('#enabledTextArea').html() +   //id can be repeat,to do fixed,the follow test class
-			   	// $('.textarea').html(); //用容器包裹生成的内容，便于获取
 			   	'<div id="create_wrap">'+$(".textarea").html()+'</div>';
 			_js = '<script>var isMobile=(function(){return (navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i));}());if(!isMobile){var e=document.getElementsByTagName("body")[0];e.className="preview";};var editConfig={url:"'+cPConfig.url+'",top:"'+cPConfig.top+'",left:"'+cPConfig.left+'",width:"'+cPConfig.width+'",height:"'+cPConfig.height+'",pInfo:{lId:'+lId+',aId:'+aId+',tId:'+tId+'},packetSetting:'+JSON.stringify(window.packetSetting)+'};'+ 
 				  'function getUrl(param){var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)"),r = window.location.search.substr(1).match(reg);if(r!=null)return  unescape(r[2]); return null;}function insertScript(src,callback){var oHead = document.getElementsByTagName("HEAD").item(0),oScript= document.createElement("script");oScript.type = "text/javascript";oScript.src=src;oHead.appendChild( oScript);if(callback){oScript.onload=function(){callback()}}}if(getUrl("qrcode")){insertScript("http://www.yjsvip.com/member/publicStatic/h5ds/scripts/library/jquery-2.0.0.min.js",function(){var _b=$("body").height(),_bg=$(".drag-bg").height();if(_b<_bg){$("body").height(_bg)}insertScript("http://www.yjsvip.com/member/js/jquery.qrcode.min.js",function(){$("body").append(\'<div class="qrcode"><div id="qrcode-img" class="qrcode-img"></div><div class="qrcode-text"><p>长按识别二维码</p><p>查看楼盘详情</p></div></div>\');_url=getUrl("qrcodeText")||"http://www.yjsvip.com/";$("#qrcode-img").qrcode({width:150,height:150,text:_url});})});}</script>';

@@ -85,14 +85,16 @@
     margin:5px 0px 5px 0px;
 }
 
-.JEditor .textarea{
+
+.JEditorContent{
     overflow-x: hidden;
     margin: 124px auto 0;
     width: 414px;
     height: 736px;
     color: #000;
+    position: relative;
 }
-.JEditor .editorEnble{position: relative;}
+.JEditor .editorEnble{position: relative;height: 100%;}
 .JEditor .textarea img{text-align: center;max-width: 100%;max-height: 100%;}
 .JEditor .textarea p{
     margin: 10px 0px;

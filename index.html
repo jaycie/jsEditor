@@ -67,10 +67,10 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 <link rel="stylesheet" type="text/css" href="static/css/page.css">
 </head>
 <body>
-	<div id="JDragBox" class="JDragBox">
+	<!-- <div id="JDragBox" class="JDragBox">
 		<div class="toolTip btn-save" data-next="save"><div class="content">保存背景</div><div class="footer"><i class="fa fa-caret-down"></i></div></div>
 		<div id="JScaleBox" class="JScaleBox"></div>
-	</div>
+	</div> -->
 
 	<div class="create-page">
 		<form action="#" method="post" target="_blank" id="createPage">
@@ -84,7 +84,8 @@ fieldset[disabled] .btn-important.active {background-color: #d9534f;border-color
 	
 
 	<div id='JEditor' class="JEditor">
-		<p>请输入内容...</p>
+		<div id="JDragBox" class="JDragBox"><div id="JScaleBox" class="JScaleBox"></div></div>
+		<div class="textarea" contenteditable="true">请输入内容...</div>
 	</div>
 	
 <script type="text/javascript" src="static/js/jquery-1.10.2.min.js" ></script>

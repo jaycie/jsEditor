@@ -79,21 +79,34 @@
 		    return false;
 		});
 	};domMove();
+ };
+
+ var bgCtrl = function(ctrl, $dom){ //编辑 保存按钮控制
+ 	var dom = $dom || $(document);
+ 	if(ctrl==='save'){
+ 		dom.find("#JEditor .btn-redo").data("next","edit").find(".content").html("编辑背景");
+ 		dom.find("#JDragBox").removeClass('showJDragBox');
+ 		dom.find('#JScaleBox').addClass('hide');
+ 	}else{
+ 		dom.find("#JEditor .btn-redo").data("next","save").find(".content").html("保存背景");
+ 		dom.find("#JDragBox").addClass('showJDragBox');
+ 		dom.find('#JScaleBox').removeClass('hide');
+ 		jDrag('#JDragBox', '#JScaleBox');
+ 	}
  }
 
 $(function(){
-	jDrag('#JDragBox', '#JScaleBox');
+	// jDrag('#JDragBox', '#JScaleBox');
 
 	$.extend({
 		drag: function(bool){
 			if(bool){
 				$('.textarea').removeClass('editorEnble');
-				$("#JEditor .btn-redo").addClass('hide');
-				$('#JScaleBox').removeClass('hide');
+				bgCtrl('edit');
 			}else{
 				$('.textarea').addClass('editorEnble');  //内容成可编辑
-				$("#JEditor .btn-redo").removeClass('hide');  //上传完成，第一版不做可编辑
-				$('#JScaleBox').addClass('hide');
+				// $("#JEditor .btn-redo").removeClass('hide');  //上传完成，第一版不做可编辑
+				bgCtrl('save');
 			}
 		}
 	})
