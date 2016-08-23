@@ -184,6 +184,19 @@ $(function(){
 		}
 		_html += _js+'</body></html>';
 		$('#pageContent').val(encodeURIComponent(_html));
+
+		//更新link
+		if(tplId){
+			$.ajax({
+				url:host+"loushus/setUrl",
+				data:{tplId:tplId, url:siteConfig.url.editor+'poster/tpl/'+tplId+"/index.html"}, //音乐type:1 图片type:2
+				type:"post",
+				dataType:"jsonp",
+				success:function(data){
+					console.log(data);
+				}
+			});
+		}
 	}
 
 	//生成页面
