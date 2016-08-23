@@ -6,6 +6,7 @@ var querystring = require("querystring"),
     fileName='';
 
 function start(response,request) {
+    console.log(JSON.stringify(formidable));
     var body = '<html>'+
         '<head>'+
         '<meta charset="UTF-8" />'+
@@ -83,14 +84,25 @@ function poster(response, request){
     console.log("now poster");
     // response.writeHead(200, {"X-XSS-Protection": 0});
     var arg=url.parse(request.url, true).query,
-        __path= arg.diy ? 'poster/diy/'+arg.lId +'/'+arg.aId : 'poster/'+arg.lId +'/'+arg.aId,
-        _path = '../'+__path,
-        pageName=_path+'/'+arg.tId+'.html',
-        __pageName=__path+'/'+arg.tId+'.html',
-        bonusName=_path+'/'+'grabBonus.html',
+        __path,
+        _path,
+        pageName,
+        __pageName,
         _refer = request.headers.referer,  
         refer = _refer.substring(0,_refer.indexOf('?')),
         d='';
+    if(arg.tplId && !arg.lId){
+        __path= arg.diy ? 'poster/tpl/diy/'+arg.tplId : 'poster/tpl/'+arg.tplId;
+        _path = '../'+__path;
+        pageName=_path+'/index.html';
+        __pageName=__path+'/index.html';
+    }else{
+        __path= arg.diy ? 'poster/diy/'+arg.lId +'/'+arg.aId : 'poster/'+arg.lId +'/'+arg.aId;
+        _path = '../'+__path;
+        pageName=_path+'/'+arg.tId+'.html';
+        __pageName=__path+'/'+arg.tId+'.html'; 
+    }
+    bonusName=_path+'/'+'grabBonus.html';
 
     if(request.url!=="/favicon.ico"){
         request.on('data',function(_data){
