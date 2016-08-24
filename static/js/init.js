@@ -187,9 +187,10 @@ $(function(){
 
 		//更新link
 		if(tplId){
+			//上传到oss
 			$.ajax({
-				url:host+"loushus/setUrl",
-				data:{tplId:tplId, url:siteConfig.url.editor+'poster/tpl/'+tplId+"/index.html"}, //音乐type:1 图片type:2
+				url:host+"loushus/saveHaibao",
+				data:{tplId:tplId, html:_html},
 				type:"post",
 				dataType:"jsonp",
 				success:function(data){
