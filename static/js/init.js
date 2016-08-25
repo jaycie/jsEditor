@@ -132,10 +132,13 @@ $(function(){
 	});
 
 	$('#returnPrevPage').on('click',function(){
-		var url = _diy ? "http://www.yjsvip.com/member/tuiguang/hunhe/getHunheListByBuildId" : "http://www.yjsvip.com/member/tuiguang/haibao/getHaiBaoListByBuildId";
-		// if(confirm("返回将清空现有操作记录，确定返回？")){
-			window.location.href = url;
-		// }
+		var url ="";
+		if(lId){
+			url = _diy ? "/member/tuiguang/hunhe/getHunheListByBuildId" : "/member/tuiguang/haibao/getHaiBaoListByBuildId";
+		}else if(tplId){
+			url = "/yjsAdminService/temp/manage/getByUserTemplateInfoList?manageDeskType=2"
+		}
+		window.location.href = url;
 		
 	});
 
